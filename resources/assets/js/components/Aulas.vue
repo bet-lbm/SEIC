@@ -58,7 +58,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <p class="col-md-4 col-sm-4 col-xs-4 text-right"><i class="fa fa-id-card-o"></i> N° :</p>
+                        <p class="col-md-4 col-sm-4 col-xs-4 text-right"><i class="fa fa-number"></i> N° de Aula:</p>
                         <p class="col-md-8 col-sm-8 col-xs-8">{{ fillItem.numero_aula }}</p>
                     </div>
                     <div class="row">
@@ -139,7 +139,7 @@
         editItem: function(item){
             var that = this;
             this.fillItem.id = item.id;
-            axios.get('/aulas/'+item.id).then(function(repsonse){
+            axios.get('/aulas/'+item.id).then(function(response){
                 that.fillItem.numero_aula = response.data.numero_aula;
                 that.fillItem.descripcion = response.data.descripcion;
             })

@@ -42951,7 +42951,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editItem: function editItem(item) {
             var that = this;
             this.fillItem.id = item.id;
-            axios.get('/aulas/' + item.id).then(function (repsonse) {
+            axios.get('/aulas/' + item.id).then(function (response) {
                 that.fillItem.numero_aula = response.data.numero_aula;
                 that.fillItem.descripcion = response.data.descripcion;
             });
@@ -43224,8 +43224,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("p", { staticClass: "col-md-4 col-sm-4 col-xs-4 text-right" }, [
-      _c("i", { staticClass: "fa fa-id-card-o" }),
-      _vm._v(" N° :")
+      _c("i", { staticClass: "fa fa-number" }),
+      _vm._v(" N° de Aula:")
     ])
   },
   function() {
