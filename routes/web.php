@@ -26,3 +26,5 @@ Route::resource('alumnos','AlumnoController',['except' => ['edit']]);
 //---------------------------- CURSOS -------------------------------------------
 Route::name('cursos.list')->get('/cursos/list','CursoController@getIndex');
 Route::resource('cursos','CursoController',['except' => ['edit']]); 
+//-----------------------------Horario-------------------------------------------
+Route::name('horarios.list')->get('/horarios/list','HorarioController@getIndex');

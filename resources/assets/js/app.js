@@ -21,6 +21,7 @@ Vue.component('cursos',require('./components/Cursos.vue'));
 Vue.component('addcurso',require('./components/CursoCrear.vue'));
 Vue.component('alumnos',require('./components/Alumnos.vue'));
 Vue.component('addalumno',require('./components/AlumnoCrear.vue'));
+Vue.component('horarios',require('./components/Horarios.vue'));
 //-------------------------------------------------------
 
 const app = new Vue({
