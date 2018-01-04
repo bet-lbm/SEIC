@@ -33,16 +33,6 @@ class AulaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -50,7 +40,12 @@ class AulaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'numero_aula' => 'required',
+            'descripcion' => 'required',
+        ]);
+        $create = Aula::create($request->all());
+        return response()->json($create);
     }
 
     /**
@@ -90,6 +85,7 @@ class AulaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $aula = Aula::find($id)->delete();
+        return response()->json(['done']);
     }
 }

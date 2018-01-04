@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-10 col-sm-12 col-xs-12 col-md-offset-1">
         <div class="card">
-            <h4 class="card-title"><i class="fa fa-file-o"></i> REGISTRAR NUEVO CURSO</h4>
+            <h4 class="card-title line-head"><i class="fa fa-laptop"></i> REGISTRAR NUEVO CURSO</h4>
             <form class="form-horizontal">
                 <div class="card-body">
                     <div class="form-group">
