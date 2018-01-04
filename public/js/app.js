@@ -42883,6 +42883,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -42898,7 +42936,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             offset: 4,
             formErrors: {},
             formErrorsUpdate: {},
-            newItem: { 'id': '', 'numero_aula': '', 'descripcion': '' },
+            newItem: { 'numero_aula': '', 'descripcion': '' },
             fillItem: { 'id': '', 'numero_aula': '', 'descripcion': '' }
         };
     },
@@ -42933,6 +42971,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+
+        createItem: function createItem() {
+            var _this = this;
+
+            var input = this.newItem;
+            if (input['numero_aula'] == '' || input['descripcion'] == '') {
+                toastr.warning('Complete todos los campos', { timeOut: 5000 });
+            } else {
+                axios.post('/aulas', input).then(function (response) {
+                    _this.newItem = { 'numero_aula': '', 'descripcion': '' };
+                    toastr.success('Aula registrada', { timeOut: 5000 });
+                    _this.getVueItems();
+                });
+            }
+        },
+
+        clean: function clean() {
+            this.newItem = { 'numero_aula': '', 'descripcion': '' };
+        },
+
         getVueItems: function getVueItems(page) {
             var that = this;
             axios.get('/aulas?page=' + page).then(function (response) {
@@ -42944,10 +43002,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
         },
+
         changePage: function changePage(page) {
             this.pagination.current_page = page;
             this.getVueItems(page);
         },
+
         editItem: function editItem(item) {
             var that = this;
             this.fillItem.id = item.id;
@@ -42957,20 +43017,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             $("#edit-item").modal('show');
         },
+
         updateItem: function updateItem(id) {
             var input = this.fillItem;
+            var that = this;
             axios.put('/aulas/' + id, input).then(function (response) {
-                this.changePage(this.pagination.current_page);
-                this.fillItem = { 'id': '', 'numero_aula': '', 'descripcion': '' };
+                that.changePage(that.pagination.current_page);
+                that.fillItem = { 'id': '', 'numero_aula': '', 'descripcion': '' };
                 $("#edit-item").modal('hide');
                 toastr.success('Datos modificados.', { timeOut: 5000 });
             });
         },
+
         deleteItem: function deleteItem(item) {
-            var _this = this;
+            var _this2 = this;
 
             axios.delete('/aulas/' + item.id).then(function (response) {
-                _this.changePage(_this.pagination.current_page);
+                _this2.changePage(_this2.pagination.current_page);
                 toastr.error('Aula eliminada', { timeOut: 5000 });
             });
         }
@@ -42988,9 +43051,135 @@ var render = function() {
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-md-12" }, [
       _c("div", { staticClass: "card" }, [
+        _vm._m(0, false, false),
+        _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
+          _c(
+            "form",
+            { staticClass: "form-horizontal", attrs: { action: "" } },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label col-md-6",
+                        attrs: { for: "" }
+                      },
+                      [_vm._v("N° de Aula :")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItem.numero_aula,
+                            expression: "newItem.numero_aula"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", required: "required" },
+                        domProps: { value: _vm.newItem.numero_aula },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newItem,
+                              "numero_aula",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-7" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label col-md-4",
+                        attrs: { for: "" }
+                      },
+                      [_vm._v("Descripción/Observación:")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-8" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItem.descripcion,
+                            expression: "newItem.descripcion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", required: "required" },
+                        domProps: { value: _vm.newItem.descripcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newItem,
+                              "descripcion",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-2" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.createItem()
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fa fa-fw fa-lg fa-check" })]
+                  ),
+                  _vm._v("   "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.clean()
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fa fa-fw fa-lg fa-times" })]
+                  )
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("p", { staticClass: "line-head" }),
+          _vm._v(" "),
           _c("table", { staticClass: "table table-hover" }, [
-            _vm._m(0, false, false),
+            _vm._m(1, false, false),
             _vm._v(" "),
             _c(
               "tbody",
@@ -43011,7 +43200,7 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn-link",
-                        attrs: { title: "Show" },
+                        attrs: { title: "Edit" },
                         on: {
                           click: function($event) {
                             $event.preventDefault()
@@ -43021,13 +43210,28 @@ var render = function() {
                       },
                       [_c("i", { staticClass: "fa fa-pencil-square-o" })]
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { attrs: { width: "10px" } }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn-link",
+                        attrs: { title: "Delete" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.deleteItem(item)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-trash-o" })]
+                    )
                   ])
                 ])
               })
             )
           ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "ln_solid" }),
           _vm._v(" "),
           _vm.pagination.last_page > 1
             ? _c("nav", { staticClass: "pull-right" }, [
@@ -43077,7 +43281,7 @@ var render = function() {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(page) +
-                                  "\n                        "
+                                  "\n                            "
                               )
                             ]
                           )
@@ -43133,49 +43337,108 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1, false, false),
+              _vm._m(2, false, false),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(2, false, false),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
-                    _vm._v(_vm._s(_vm.fillItem.numero_aula))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(3, false, false),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.fillItem.descripcion,
-                        expression: "fillItem.descripcion"
-                      }
-                    ],
-                    staticClass: "col-md-8 col-sm-8 col-xs-8",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.fillItem.descripcion },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                _c("form", { staticClass: "form-horizontal" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "p",
+                      { staticClass: "col-md-3 col-sm-3 col-xs-3 text-right" },
+                      [_vm._v("N° de Aula :")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.fillItem.numero_aula,
+                            expression: "fillItem.numero_aula"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", autofocus: "" },
+                        domProps: { value: _vm.fillItem.numero_aula },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.fillItem,
+                              "numero_aula",
+                              $event.target.value
+                            )
+                          }
                         }
-                        _vm.$set(
-                          _vm.fillItem,
-                          "descripcion",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "p",
+                      { staticClass: "col-md-3 col-sm-3 col-xs-3 text-right" },
+                      [_vm._v("Descripción :")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.fillItem.descripcion,
+                            expression: "fillItem.descripcion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.fillItem.descripcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.fillItem,
+                              "descripcion",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" })
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.updateItem(_vm.fillItem.id)
+                      }
+                    }
+                  },
+                  [_vm._v(" Guadar cambios ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: { "data-dismiss": "modal", type: "button" }
+                  },
+                  [_vm._v("Cancelar")]
+                )
+              ])
             ])
           ]
         )
@@ -43188,15 +43451,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("h4", { staticClass: "card-title line-head" }, [
+      _c("i", { staticClass: "fa fa-plus" }),
+      _vm._v("   Agregar aula nueva ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", { staticStyle: { width: "10%" } }, [_vm._v("Aula")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Descripción")]),
+        _c("th", [_vm._v("Descripción/Observación")]),
         _vm._v(" "),
-        _c("th", { attrs: { colspan: "1" } }, [_vm._v(" ")])
+        _c("th", { attrs: { colspan: "2" } }, [_vm._v(" ")])
       ])
     ])
   },
@@ -43217,24 +43489,6 @@ var staticRenderFns = [
       _c("h5", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
         _vm._v(" Modificar detalles de aula ")
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "col-md-4 col-sm-4 col-xs-4 text-right" }, [
-      _c("i", { staticClass: "fa fa-number" }),
-      _vm._v(" N° de Aula:")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "col-md-4 col-sm-4 col-xs-4 text-right" }, [
-      _c("i", { staticClass: "fa fa-home" }),
-      _vm._v(" Descripción :")
     ])
   }
 ]
@@ -44370,8 +44624,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "card-title" }, [
-      _c("i", { staticClass: "fa fa-file-o" }),
+    return _c("h4", { staticClass: "card-title line-head" }, [
+      _c("i", { staticClass: "fa fa-laptop" }),
       _vm._v(" REGISTRAR NUEVO CURSO")
     ])
   }
@@ -46103,10 +46357,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "card-title" }, [
+    return _c("h4", { staticClass: "card-title line-head" }, [
       _c("i", { staticClass: "fa fa-user-plus" }),
       _vm._v(" "),
-      _c("b", [_vm._v(" REGISTRAR ALUMNO NUEVO ")])
+      _c("b", [_vm._v(" Registrar Alumno Nuevo ")])
     ])
   }
 ]
