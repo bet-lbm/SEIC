@@ -1072,7 +1072,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(57);
+module.exports = __webpack_require__(60);
 
 
 /***/ }),
@@ -1103,6 +1103,7 @@ Vue.component('addcurso', __webpack_require__(45));
 Vue.component('alumnos', __webpack_require__(48));
 Vue.component('addalumno', __webpack_require__(51));
 Vue.component('horarios', __webpack_require__(54));
+Vue.component('addhorario', __webpack_require__(57));
 //-------------------------------------------------------
 
 var app = new Vue({
@@ -43169,7 +43170,7 @@ var render = function() {
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-md-12" }, [
       _c("div", { staticClass: "card" }, [
-        _vm._m(0, false, false),
+        _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c(
@@ -43297,8 +43298,7 @@ var render = function() {
           _c("p", { staticClass: "line-head" }),
           _vm._v(" "),
           _c("table", { staticClass: "table table-hover" }, [
-            _vm._m(0),
-            _vm._m(1, false, false),
+            _vm._m(1),
             _vm._v(" "),
             _c(
               "tbody",
@@ -43456,22 +43456,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-<<<<<<< HEAD
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
-                    _vm._v(_vm._s(_vm.fillItem.numero_aula))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(3),
-=======
-              _vm._m(2, false, false),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", { staticClass: "form-horizontal" }, [
@@ -43510,7 +43495,6 @@ var render = function() {
                       })
                     ])
                   ]),
->>>>>>> f6960c37f94cd9a231e85d90246a17bf9f0d3600
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c(
@@ -46638,6 +46622,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -46650,10 +46677,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 to: 0,
                 current_page: 1
             },
-            offset: 4,
+
             formErrors: {},
             formErrorsUpdate: {},
-            newItem: { 'id': '', 'dia': '', 'hora_inicio': '', 'hora_fin': '', 'aula_id': '', 'curso_id': '' },
+            offset: 4,
             fillItem: { 'id': '', 'dia': '', 'hora_inicio': '', 'hora_fin': '', 'aula_id': '', 'curso_id': '' }
         };
     },
@@ -46690,10 +46717,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getVueItems: function getVueItems(page) {
             var that = this;
-            axios.get('/horario?page=' + page).then(function (response) {
+            axios.get('/horarios?page' + page).then(function (response) {
                 that.items = response.data.data.data;
                 that.pagination = response.data.pagination;
-
                 that.$nextTick(function () {
                     $('[data-toggle="popover"]').popover();
                 });
@@ -46703,30 +46729,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.pagination.current_page = page;
             this.getVueItems(page);
         },
+        deleteItem: function deleteItem(item) {
+            var _this = this;
+
+            axios.delete('/horarios/' + item.id).then(function (response) {
+                _this.changePage(_this.pagination.current_page);
+                toastr.error('Horario eliminado', { timeOut: 5000 });
+            });
+        },
         editItem: function editItem(item) {
             var that = this;
             this.fillItem.id = item.id;
-            axios.get('/horario/' + item.id).then(function (repsonse) {
-                that.fillItem.numero_aula = response.data.numero_aula;
-                that.fillItem.descripcion = response.data.descripcion;
+            axios.get('/horarios/' + item.id).then(function (response) {
+                that.fillItem.dia = response.data.dia;
+                that.fillItem.hora_inicio = response.data.hora_inicio;
+                that.fillItem.hora_fin = response.data.hora_fin;
+                that.fillItem.aula_id = response.data.aula_id;
+                that.fillItem.curso_id = response.data.curso_id;
             });
             $("#edit-item").modal('show');
         },
         updateItem: function updateItem(id) {
-            var input = this.fillItem;
-            axios.put('/horario/' + id, input).then(function (response) {
-                this.changePage(this.pagination.current_page);
-                this.fillItem = { 'id': '', 'numero_aula': '', 'descripcion': '' };
-                $("#edit-item").modal('hide');
-                toastr.success('Datos modificados.', { timeOut: 5000 });
-            });
-        },
-        deleteItem: function deleteItem(item) {
-            var _this = this;
+            var _this2 = this;
 
-            axios.delete('/horario/' + item.id).then(function (response) {
-                _this.changePage(_this.pagination.current_page);
-                toastr.error('Aula eliminada', { timeOut: 5000 });
+            var input = this.fillItem;
+            axios.put('/horarios/' + id, input).then(function (response) {
+                _this2.changePage(_this2.pagination.current_page);
+                _this2.fillItem = { 'id': '', 'dia': '', 'hora_inicio': '', 'hora_fin': '', 'aula_id': '', 'curso_id': '' };
+                $("#edit-item").modal('hide');
+                toastr.success('Datos de horario correctamente editado', { timeOut: 5000 });
+            }, function (response) {
+                that.formErrorsUpdate = response.data;
             });
         }
     }
@@ -46751,7 +46784,7 @@ var render = function() {
               "tbody",
               _vm._l(_vm.items, function(item, index) {
                 return _c("tr", [
-                  _c("td", [
+                  _c("th", [
                     _vm._v(
                       _vm._s(index + 1 + (_vm.pagination.current_page - 1) * 10)
                     )
@@ -46767,12 +46800,14 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.curso_id))]),
                   _vm._v(" "),
+                  _vm._m(1, true),
+                  _vm._v(" "),
                   _c("td", { attrs: { width: "10px" } }, [
                     _c(
                       "button",
                       {
                         staticClass: "btn-link",
-                        attrs: { title: "Show" },
+                        attrs: { title: "Edit" },
                         on: {
                           click: function($event) {
                             $event.preventDefault()
@@ -46782,16 +46817,33 @@ var render = function() {
                       },
                       [_c("i", { staticClass: "fa fa-pencil-square-o" })]
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { attrs: { width: "10px" } }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn-link",
+                        attrs: { title: "Delete" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.deleteItem(item)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-trash-o" })]
+                    )
                   ])
                 ])
               })
             )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "ln_solid" }),
-          _vm._v(" "),
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-footer" }, [
           _vm.pagination.last_page > 1
-            ? _c("nav", { staticClass: "pull-right" }, [
+            ? _c("div", {}, [
                 _c(
                   "ul",
                   { staticClass: "pagination" },
@@ -46894,49 +46946,242 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
-                    _vm._v(_vm._s(_vm.fillItem.numero_aula))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(3),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.fillItem.descripcion,
-                        expression: "fillItem.descripcion"
-                      }
-                    ],
-                    staticClass: "col-md-8 col-sm-8 col-xs-8",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.fillItem.descripcion },
+                _c(
+                  "form",
+                  {
+                    staticClass: "form-horizontal form-label-left",
+                    attrs: { method: "POST", enctype: "multipart/form-data" },
                     on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.fillItem,
-                          "descripcion",
-                          $event.target.value
-                        )
+                      submit: function($event) {
+                        $event.preventDefault()
+                        _vm.updateItem(_vm.fillItem.id)
                       }
                     }
-                  })
-                ])
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "col-md-3 col-sm-3 col-xs-3 text-right"
+                        },
+                        [_vm._v("DIA :")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillItem.dia,
+                              expression: "fillItem.dia"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "dia" },
+                          domProps: { value: _vm.fillItem.dia },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.fillItem, "dia", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm.formErrorsUpdate["dia"]
+                        ? _c("span", { staticClass: "error text-danger" }, [
+                            _vm._v(_vm._s(_vm.formErrorsUpdate["dia"]))
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "col-md-3 col-sm-3 col-xs-3 text-right"
+                        },
+                        [_vm._v("HORA INICIO :")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillItem.hora_inicio,
+                              expression: "fillItem.hora_inicio"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "hora_inicio" },
+                          domProps: { value: _vm.fillItem.hora_inicio },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillItem,
+                                "hora_inicio",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm.formErrorsUpdate["hora_inicio"]
+                        ? _c("span", { staticClass: "error text-danger" }, [
+                            _vm._v(_vm._s(_vm.formErrorsUpdate["hora_inicio"]))
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "col-md-3 col-sm-3 col-xs-3 text-right"
+                        },
+                        [_vm._v("HORA INICIO :")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillItem.hora_fin,
+                              expression: "fillItem.hora_fin"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "hora_fin" },
+                          domProps: { value: _vm.fillItem.hora_fin },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillItem,
+                                "hora_fin",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm.formErrorsUpdate["hora_fin"]
+                        ? _c("span", { staticClass: "error text-danger" }, [
+                            _vm._v(_vm._s(_vm.formErrorsUpdate["hora_fin"]))
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "col-md-3 col-sm-3 col-xs-3 text-right"
+                        },
+                        [_vm._v("AULA :")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillItem.aula_id,
+                              expression: "fillItem.aula_id"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "aula_id" },
+                          domProps: { value: _vm.fillItem.aula_id },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillItem,
+                                "aula_id",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm.formErrorsUpdate["aula_id"]
+                        ? _c("span", { staticClass: "error text-danger" }, [
+                            _vm._v(_vm._s(_vm.formErrorsUpdate["aula_id"]))
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "col-md-3 col-sm-3 col-xs-3 text-right"
+                        },
+                        [_vm._v("CURSO :")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillItem.curso_id,
+                              expression: "fillItem.curso_id"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "curso_id" },
+                          domProps: { value: _vm.fillItem.curso_id },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillItem,
+                                "curso_id",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm.formErrorsUpdate["curso_id"]
+                        ? _c("span", { staticClass: "error text-danger" }, [
+                            _vm._v(_vm._s(_vm.formErrorsUpdate["curso_id"]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" })
+              _vm._m(3)
             ])
           ]
         )
@@ -46971,6 +47216,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("td", { attrs: { width: "10px" } }, [
+      _c("button", { staticClass: "btn-link", attrs: { title: "Show" } }, [
+        _c("i", { staticClass: "fa fa-eye" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c(
         "button",
@@ -46982,7 +47237,7 @@ var staticRenderFns = [
       ),
       _vm._v(" "),
       _c("h5", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
-        _vm._v(" Modificar detalles de aula ")
+        _vm._v(" Modificar detalles de Horario ")
       ])
     ])
   },
@@ -46990,18 +47245,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "col-md-4 col-sm-4 col-xs-4 text-right" }, [
-      _c("i", { staticClass: "fa fa-id-card-o" }),
-      _vm._v(" N° :")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "col-md-4 col-sm-4 col-xs-4 text-right" }, [
-      _c("i", { staticClass: "fa fa-home" }),
-      _vm._v(" Descripción :")
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c("button", { staticClass: "btn btn-primary" }, [
+        _vm._v(" Guadar cambios ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-default",
+          attrs: { "data-dismiss": "modal", type: "button" }
+        },
+        [_vm._v("Cancelar")]
+      )
     ])
   }
 ]
@@ -47016,6 +47272,457 @@ if (false) {
 
 /***/ }),
 /* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(58)
+/* template */
+var __vue_template__ = __webpack_require__(59)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/HorarioCrear.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-cd0b0608", Component.options)
+  } else {
+    hotAPI.reload("data-v-cd0b0608", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			aulas: [],
+			cursos: [],
+			newItem: { 'dia': '', 'hora_inicio': '', 'hora_fin': '', 'aula_id': '', 'curso_id': '' },
+			formErrors: {},
+			formErrorsUpdate: {}
+		};
+	},
+	created: function created() {
+		this.getAula();
+		this.getCurso();
+	},
+
+	methods: {
+		getAula: function getAula() {
+			var that = this;
+			axios.get('/aulas/combo').then(function (response) {
+				that.aulas = response.data;
+			});
+		},
+		getCurso: function getCurso() {
+			var that = this;
+			axios.get('/cursos/combo').then(function (response) {
+				that.cursos = response.data;
+			});
+		},
+		createItem: function createItem() {
+			var _this = this;
+
+			var input = this.newItem;
+			if (input['dia'] == '' || input['hora_inicio'] == '' || input['hora_fin'] == '' || input['aula_id'] == '' || input['curso_id'] == '') {
+				toastr.warning('Complete los campos', { timeOut: 5000 });
+			} else {
+				axios.post('/horarios', input).then(function (response) {
+					_this.newItem = { 'dia': '', 'hora_inicio': '', 'hora_fin': '', 'aula_id': '', 'curso_id': '' };
+					toastr.success('Nuevo Horario Registrado con éxito', { timeOut: 5000 });
+				});
+			}
+		},
+		clean: function clean() {
+			this.newItem = { 'dia': '', 'hora_inicio': '', 'hora_fin': '', 'aula_id': '', 'curso_id': '' };
+		}
+	}
+});
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c(
+      "div",
+      { staticClass: "col-md-10 col-sm-12 col-xs-12 col-md-offset-1" },
+      [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("form", { staticClass: "form-horizontal" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "control-label col-md-3" }, [
+                  _vm._v("DIAS")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-8" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItem.dia,
+                        expression: "newItem.dia"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "LUNES - MIERCOLES - VIERNES ",
+                      required: "required",
+                      autofocus: "autofocus"
+                    },
+                    domProps: { value: _vm.newItem.dia },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.newItem, "dia", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "control-label col-md-3" }, [
+                  _vm._v("HORA INICIO")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-8" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItem.hora_inicio,
+                        expression: "newItem.hora_inicio"
+                      }
+                    ],
+                    staticClass: "form-control col-md-8",
+                    attrs: {
+                      type: "text",
+                      placeholder: "9:00 AM",
+                      required: "required",
+                      autofocus: "autofocus"
+                    },
+                    domProps: { value: _vm.newItem.hora_inicio },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.newItem,
+                          "hora_inicio",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "control-label col-md-3" }, [
+                  _vm._v("HORA FIN")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-8" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItem.hora_fin,
+                        expression: "newItem.hora_fin"
+                      }
+                    ],
+                    staticClass: "form-control col-md-8",
+                    attrs: {
+                      type: "text",
+                      placeholder: "10:00 AM",
+                      required: "required",
+                      autofocus: "autofocus"
+                    },
+                    domProps: { value: _vm.newItem.hora_fin },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.newItem, "hora_fin", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "control-label col-md-3" }, [
+                  _vm._v("AULA")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-8" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newItem.aula_id,
+                          expression: "newItem.aula_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { required: "required", autofocus: "autofocus" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.newItem,
+                            "aula_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.aulas, function(aula) {
+                      return _c("option", { domProps: { value: aula.id } }, [
+                        _vm._v(_vm._s(aula.numero_aula))
+                      ])
+                    })
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "control-label col-md-3" }, [
+                  _vm._v("CURSO")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-8" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newItem.curso_id,
+                          expression: "newItem.curso_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { required: "required", autofocus: "autofocus" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.newItem,
+                            "curso_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.cursos, function(curso) {
+                      return _c("option", { domProps: { value: curso.id } }, [
+                        _vm._v(_vm._s(curso.nombre))
+                      ])
+                    })
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-8 col-md-offset-4" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary icon-btn",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.createItem()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-fw fa-lg fa-check-circle"
+                      }),
+                      _vm._v("Registrar")
+                    ]
+                  ),
+                  _vm._v("   "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default icon-btn",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.clean()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-fw fa-lg fa-times-circle"
+                      }),
+                      _vm._v("Cancelar")
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", { staticClass: "card-title line-head" }, [
+      _c("i", { staticClass: "fa fa-laptop" }),
+      _vm._v(" REGISTRAR NUEVO HORARIO")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-cd0b0608", module.exports)
+  }
+}
+
+/***/ }),
+/* 60 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

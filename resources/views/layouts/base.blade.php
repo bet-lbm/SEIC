@@ -76,7 +76,7 @@
                 <li><a href="{{ route('aulas.list') }}"><i class="fa fa-circle-o"></i>Aulas</a></li>
                 <li><a href="{{ route('alumnos.list') }}"><i class="fa fa-circle-o"></i>Alumnos</a></li>
                 <li><a href="{{ route('cursos.list') }}"><i class="fa fa-circle-o"></i>Cursos</a></li>
-                <li><a href="widgets.html"><i class="fa fa-circle-o"></i>Horarios</a></li>
+                <li><a href="{{ route('horarios.list') }}"><i class="fa fa-circle-o"></i>Horarios</a></li>
               </ul>
             </li>
             <li class="treeview"><a href="#"><i class="fa fa-edit"></i><span>Procesos</span><i class="fa fa-angle-right"></i></a>

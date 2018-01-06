@@ -6,7 +6,7 @@
 	    	<h1><i class="fa fa-users"></i> <small>Horarios</small> </h1>
 	  	</div>
 	  	<div>
-	    	<a class="btn btn-primary btn-flat"><i class="fa fa-lg fa-plus"></i></a>
+	    	<a class="btn btn-primary btn-flat" href="{{ route('horarios.create') }}"><i class="fa fa-lg fa-plus"></i></a>
 	 	 </div>
 	</div>	
   	<horarios></horarios>

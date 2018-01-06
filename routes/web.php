@@ -18,13 +18,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 //---------------------alulas--------------------------------------------------
 Route::name('aulas.list')->get('/aulas/list','AulaController@getIndex');
-Route::resource('aulas','AulaController',['except' => ['edit']]); 
+Route::get('/aulas/combo','AulaController@combo');
+Route::resource('aulas','AulaController',['except' => ['edit']]);
 //---------------------------- ALUMNOS -------------------------------------------
 Route::name('alumnos.list')->get('/alumnos/list','AlumnoController@getIndex');
 Route::get('/alumnos/search','AlumnoController@search');
 Route::resource('alumnos','AlumnoController',['except' => ['edit']]); 
 //---------------------------- CURSOS -------------------------------------------
 Route::name('cursos.list')->get('/cursos/list','CursoController@getIndex');
+Route::get('/cursos/combo','CursoController@combo');
 Route::resource('cursos','CursoController',['except' => ['edit']]); 
 //-----------------------------Horario-------------------------------------------
 Route::name('horarios.list')->get('/horarios/list','HorarioController@getIndex');
+Route::resource('horarios','HorarioController',['except'=>['edit']]);

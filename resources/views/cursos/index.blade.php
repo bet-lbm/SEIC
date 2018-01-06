@@ -6,7 +6,7 @@
 	    	<h1><i class="fa fa-laptop"></i> <small> Cursos</small> </h1>
 	  	</div>
 	  	<div>
-	    	<a class="btn btn-primary btn-flat" href="{{ route('cursos.create') }}"><i class="fa fa-lg fa-plus"></i></a>
+	    	<a class="btn btn-primary btn-flat" href="{{ route('cursos.list') }}"><i class="fa fa-lg fa-plus"></i></a>
 	 	 </div>
 	</div>	
   	<cursos></cursos>     

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Horario;
 use Illuminate\Http\Request;
 
 class HorarioController extends Controller
@@ -38,7 +39,7 @@ class HorarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('horarios.create');
     }
 
     /**
@@ -49,7 +50,15 @@ class HorarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'dia'=> 'required',
+            'hora_inicio'=>'required',
+            'hora_fin'=>'required',
+            'aula_id'=>'required',
+            'curso_id'=>'required',
+        ]);
+        $create=Horario::create($request->all());
+        return response()->json($create);
     }
 
     /**
@@ -60,7 +69,8 @@ class HorarioController extends Controller
      */
     public function show($id)
     {
-        //
+        $horario=Horario::find($id);
+        return response()->json($horario);
     }
 
     /**
@@ -83,7 +93,15 @@ class HorarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'dia'=>'required',
+            'hora_inicio'=>'required',
+            'hora_fin'=>'required',
+            'aula_id'=>'required',
+            'curso_id'=>'required',
+        ]);
+        $edit=Horario::find($id)->update($request->all());
+        return response()->json($edit);
     }
 
     /**
@@ -94,6 +112,7 @@ class HorarioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Horario::find($id)->delete();
+        return response()->json(['done']);
     }
 }

@@ -88,4 +88,9 @@ class AulaController extends Controller
         $aula = Aula::find($id)->delete();
         return response()->json(['done']);
     }
+
+    public function combo(){
+        $aulas=Aula::orderBy('numero_aula','asc')->get();
+        return response()->json($aulas);
+    }
 }
