@@ -22,10 +22,9 @@ Vue.component('addcurso',require('./components/CursoCrear.vue'));
 Vue.component('alumnos',require('./components/Alumnos.vue'));
 Vue.component('addalumno',require('./components/AlumnoCrear.vue'));
 Vue.component('horarios',require('./components/Horarios.vue'));
+Vue.component('addhorario',require('./components/HorarioCrear.vue'));
 Vue.component('addmatricula',require('./components/MatriculaCrear.vue'));
-
 //-------------------------------------------------------
-
 const app = new Vue({
     el: '#app'
 });

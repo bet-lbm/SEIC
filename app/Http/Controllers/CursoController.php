@@ -60,4 +60,8 @@ class CursoController extends Controller
         Curso::find($id)->delete();
         return response()->json(['done']);
     }
+    public function combo(){
+        $curso=Curso::orderBy('nombre','asc')->get();
+        return response()->json($curso);
+    }
 }
