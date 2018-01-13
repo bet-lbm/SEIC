@@ -1072,11 +1072,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-<<<<<<< HEAD
-module.exports = __webpack_require__(59);
-=======
-module.exports = __webpack_require__(60);
->>>>>>> 89c0dfad7b63ebc04cc5ea486503f37bd6522e21
+module.exports = __webpack_require__(63);
 
 
 /***/ }),
@@ -1108,10 +1104,8 @@ Vue.component('alumnos', __webpack_require__(48));
 Vue.component('addalumno', __webpack_require__(51));
 Vue.component('horarios', __webpack_require__(54));
 Vue.component('addhorario', __webpack_require__(57));
-Vue.component('addmatricula', __webpack_require__(57));
-
+Vue.component('addmatricula', __webpack_require__(60));
 //-------------------------------------------------------
-
 var app = new Vue({
   el: '#app'
 });
@@ -43059,7 +43053,7 @@ var render = function() {
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-md-12" }, [
       _c("div", { staticClass: "card" }, [
-        _vm._m(0),
+        _vm._m(0, false, false),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c(
@@ -43187,11 +43181,7 @@ var render = function() {
           _c("p", { staticClass: "line-head" }),
           _vm._v(" "),
           _c("table", { staticClass: "table table-hover" }, [
-<<<<<<< HEAD
             _vm._m(1, false, false),
-=======
-            _vm._m(1),
->>>>>>> 89c0dfad7b63ebc04cc5ea486503f37bd6522e21
             _vm._v(" "),
             _c(
               "tbody",
@@ -43349,11 +43339,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-<<<<<<< HEAD
               _vm._m(2, false, false),
-=======
-              _vm._m(2),
->>>>>>> 89c0dfad7b63ebc04cc5ea486503f37bd6522e21
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", { staticClass: "form-horizontal" }, [
@@ -46706,7 +46692,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.curso_id))]),
                   _vm._v(" "),
-                  _vm._m(1, true),
+                  _vm._m(1, true, false),
                   _vm._v(" "),
                   _c("td", { attrs: { width: "10px" } }, [
                     _c(
@@ -46852,35 +46838,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-<<<<<<< HEAD
-              _vm._m(1, false, false),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(2, false, false),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "col-md-8 col-sm-8 col-xs-8" }, [
-                    _vm._v(_vm._s(_vm.fillItem.numero_aula))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(3, false, false),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.fillItem.descripcion,
-                        expression: "fillItem.descripcion"
-                      }
-                    ],
-                    staticClass: "col-md-8 col-sm-8 col-xs-8",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.fillItem.descripcion },
-=======
-              _vm._m(2),
+              _vm._m(2, false, false),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c(
@@ -46888,7 +46846,6 @@ var render = function() {
                   {
                     staticClass: "form-horizontal form-label-left",
                     attrs: { method: "POST", enctype: "multipart/form-data" },
->>>>>>> 89c0dfad7b63ebc04cc5ea486503f37bd6522e21
                     on: {
                       submit: function($event) {
                         $event.preventDefault()
@@ -47116,7 +47073,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm._m(3)
+              _vm._m(3, false, false)
             ])
           ]
         )
@@ -47232,6 +47189,7 @@ var Component = normalizeComponent(
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/components/HorarioCrear.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -47243,7 +47201,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-cd0b0608", Component.options)
   } else {
     hotAPI.reload("data-v-cd0b0608", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -47375,7 +47333,7 @@ var render = function() {
       { staticClass: "col-md-10 col-sm-12 col-xs-12 col-md-offset-1" },
       [
         _c("div", { staticClass: "card" }, [
-          _vm._m(0),
+          _vm._m(0, false, false),
           _vm._v(" "),
           _c("form", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "card-body" }, [
@@ -47657,16 +47615,15 @@ if (false) {
 }
 
 /***/ }),
-<<<<<<< HEAD
-/* 57 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(61)
 /* template */
-var __vue_template__ = __webpack_require__(58)
+var __vue_template__ = __webpack_require__(62)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47706,28 +47663,510 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 58 */
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      date: new Date(),
+      queryString: '',
+      alumnos: [],
+      fillAlumno: { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' }
+    };
+  },
+
+  computed: {
+    today: function today() {
+      return this.date.toLocaleString("es-CL", { year: "numeric", month: "numeric", day: "numeric" });
+    }
+  },
+  methods: {
+    getResults: function getResults() {
+      var that = this;
+      axios.get('/alumnos/search', { params: { queryString: this.queryString } }).then(function (response) {
+        that.alumnos = response.data.data.data;
+      });
+    },
+
+    selectAlumno: function selectAlumno(alumno) {
+      this.fillAlumno.dni = alumno.dni;
+      this.fillAlumno.nombres = alumno.nombres;
+      this.fillAlumno.apellidos = alumno.apellidos;
+      this.fillAlumno.direccion = alumno.direccion;
+      this.fillAlumno.email = alumno.email;
+      this.fillAlumno.telefono = alumno.telefono;
+      $("#show-item").modal('hide');
+      this.queryString = '';
+      this.alumnos = '';
+    },
+    showAlumno: function showAlumno() {
+      $("#show-item").modal('show');
+    }
+  }
+});
+
+/***/ }),
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0, false, false)
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-title" }, [
+        _c("div", { staticClass: "row line-head" }, [
+          _vm._m(0, false, false),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6 col-sm-6 col-xs-6" }, [
+            _c("h5", { staticClass: "pull-right" }, [
+              _c("i", { staticClass: "fa fa-calendar" }),
+              _vm._v("  " + _vm._s(_vm.today))
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "row invoce-info line-head" }, [
+          _vm._m(1, false, false),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-9 col-md-9 col-xs-6" }, [
+            _c("address", [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("br"),
+                _c("i", { staticClass: "fa fa-id-card-o" }),
+                _c("b", [_vm._v("  DNI: ")]),
+                _vm._v(
+                  "     " +
+                    _vm._s(_vm.fillAlumno.dni) +
+                    "\n\t                        "
+                ),
+                _c("br"),
+                _c("b", [_vm._v(" Nombres: ")]),
+                _vm._v(
+                  _vm._s(_vm.fillAlumno.nombres) +
+                    "  \n\t                        "
+                ),
+                _c("br"),
+                _c("b", [_vm._v(" Apellidos: ")]),
+                _vm._v(
+                  _vm._s(_vm.fillAlumno.apellidos) + "\n                    \t"
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-7" }, [
+                _c("br"),
+                _c("i", { staticClass: "fa fa-home" }),
+                _c("b", [_vm._v(" Dirección:")]),
+                _vm._v(
+                  "  " +
+                    _vm._s(_vm.fillAlumno.direccion) +
+                    " \n\t                        "
+                ),
+                _c("br"),
+                _c("i", { staticClass: "fa fa-phone" }),
+                _vm._v(" "),
+                _c("b", [_vm._v(" Teléfono:")]),
+                _vm._v(
+                  "   " +
+                    _vm._s(_vm.fillAlumno.telefono) +
+                    "\n\t                        "
+                ),
+                _c("br"),
+                _c("b", [_vm._v(" @ e-mail:")]),
+                _vm._v(
+                  "      " +
+                    _vm._s(_vm.fillAlumno.email) +
+                    "\n                    \t"
+                )
+              ]),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn-link pull-right",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.showAlumno()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-search" })]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(2, false, false),
+        _vm._v(" "),
+        _vm._m(3, false, false)
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-footer" })
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal",
+        attrs: {
+          id: "show-item",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(4, false, false),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "row top_search" }, [
+                  _c("label", { staticClass: "control-label col-md-3" }, [
+                    _vm._v("Buscar: ")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group col-md-8" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.queryString,
+                          expression: "queryString"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        placeholder: "Nombres Y Apellidos",
+                        autofocus: "autofocus"
+                      },
+                      domProps: { value: _vm.queryString },
+                      on: {
+                        keyup: function($event) {
+                          _vm.getResults()
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.queryString = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(5, false, false)
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(6, false, false),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.alumnos, function(alumno) {
+                      return _c("tr", [
+                        _c("th", [_vm._v(_vm._s(alumno.dni))]),
+                        _vm._v(" "),
+                        _c("th", [
+                          _vm._v(
+                            _vm._s(alumno.nombres) +
+                              " " +
+                              _vm._s(alumno.apellidos)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { attrs: { width: "10px" } }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn-link",
+                              attrs: { title: "Seleccionar" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.selectAlumno(alumno)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-check" })]
+                          )
+                        ])
+                      ])
+                    })
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-title" }, [
-        _vm._v("Registar nueva matricula")
-      ]),
+    return _c("h5", { staticClass: "col-md-6 col-sm-6 col-xs-6" }, [
+      _c("i", { staticClass: "fa fa-barcode" }),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body" }),
+      _c("b", [_vm._v(" CÓDIGO DE MATRICULA :")]),
+      _vm._v("  M22-00012")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("h3", { staticClass: "text-center " }, [
+        _c("i", { staticClass: "fa fa-graduation-cap" }),
+        _c("br"),
+        _vm._v("SEIC"),
+        _c("br"),
+        _c("small", [_vm._v("CAPACITACIONES")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row form-horizontal" }, [
+      _c("br"),
       _vm._v(" "),
-      _c("div", { staticClass: "card-footer" })
+      _c("div", { staticClass: "form-group col-md-8  col-sm-8  col-xs-12" }, [
+        _c(
+          "label",
+          { staticClass: "control-label col-md-3 col-sm-3 col-xs-6" },
+          [_vm._v("Seleccionar Curso: ")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-9 col-sm-9 col-xs-6" }, [
+          _c(
+            "select",
+            { staticClass: "form-control", attrs: { required: "required" } },
+            [
+              _c("option", [_vm._v("A")]),
+              _vm._v(" "),
+              _c("option", [_vm._v("B")])
+            ]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-xs-5" }, [
+        _c("div", { staticClass: "table-responsive" }, [
+          _c("table", { staticClass: "table" }, [
+            _c("tbody", [
+              _c("tr", [
+                _c("th", { staticStyle: { width: "50%" } }, [
+                  _vm._v("OP. GRAVADA:")
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v("S/. 100")])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("th", [_vm._v("IGV (18%)")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("S/. 10")])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("th", [_vm._v("TOTAL:")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("S/.110")])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      ),
+      _vm._v(" "),
+      _c("h5", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
+        _vm._v(" Buscar alumno ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-search" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("DNI")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombres y Apellidos")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "1" } }, [_vm._v(" ")])
+      ])
     ])
   }
 ]
@@ -47741,10 +48180,7 @@ if (false) {
 }
 
 /***/ }),
-/* 59 */
-=======
-/* 60 */
->>>>>>> 89c0dfad7b63ebc04cc5ea486503f37bd6522e21
+/* 63 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
