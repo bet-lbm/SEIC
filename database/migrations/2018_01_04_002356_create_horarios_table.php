@@ -19,9 +19,9 @@ class CreateHorariosTable extends Migration
             $table->string('hora_inicio');
             $table->string('hora_fin');
             $table->integer('aula_id')->unsigned();
-            $table->foreign('aula_id')->references('id')->on('aulas');
+            $table->foreign('aula_id')->references('id')->on('aulas')->onUpdate('cascade');
             $table->integer('curso_id')->unsigned();
-            $table->foreign('curso_id')->references('id')->on('cursos');
+            $table->foreign('curso_id')->references('id')->on('cursos')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -115,4 +115,6 @@ class HorarioController extends Controller
         Horario::find($id)->delete();
         return response()->json(['done']);
     }
+
+
 }

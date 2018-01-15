@@ -204,6 +204,7 @@ export default {
             formErrorsUpdate: {},
             offset: 4,
             fillItem : {'id': '','dni':'','nombres':'','apellidos':'','sexo':'','direccion':'','email':'','telefono':''},
+            queryString:'',
         }
     },
 	computed: {
