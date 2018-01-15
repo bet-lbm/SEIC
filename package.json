@@ -19,6 +19,7 @@
     "vue": "^2.1.10"
   },
   "dependencies": {
-    "toastr": "^2.1.2"
+    "toastr": "^2.1.2",
+    "vuejs-datepicker": "^0.9.22"
   }
 }
