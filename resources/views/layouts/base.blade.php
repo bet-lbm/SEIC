@@ -79,7 +79,7 @@
                 <li><a href="{{ route('horarios.list') }}"><i class="fa fa-circle-o"></i>Horarios</a></li>
               </ul>
             </li>
-            <li><a href="{{ route('matriculas.index') }}"><i class="fa fa-desktop"> Matriculas</i></a></li>
+            <li class="treeview"><a href="{{ route('matriculas.create') }}"><i class="fa fa-desktop"></i><span>Matriculas</span></a></li>
             <li class="treeview"><a href="#"><i class="fa fa-edit"></i><span>Procesos</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="form-components.html"><i class="fa fa-circle-o"></i>Asistencia</a></li>

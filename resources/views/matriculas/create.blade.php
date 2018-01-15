@@ -9,7 +9,7 @@
 	    <ul class="breadcrumb side">
 	    	<li><i class="fa fa-home fa-lg"></i></li>
 	      	<li>Matricula</li>
-	      	<li class="active"><a href="{{ route('matriculas.index') }}">Nueva </a></li>
+	      	<li class="active"><a href="{{ route('matriculas.create') }}">Nueva </a></li>
 	    </ul>
 	  </div>
 

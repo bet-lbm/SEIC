@@ -31,5 +31,7 @@ Route::resource('cursos','CursoController',['except' => ['edit']]);
 //-----------------------------Horario-------------------------------------------
 Route::name('horarios.list')->get('/horarios/list','HorarioController@getIndex');
 Route::resource('horarios','HorarioController',['except'=>['edit']]);
+Route::get('/horarios/curso/{curso}','HorarioController@findHorario');
 //-----------------------------MATRICULA-------------------------------------------
-Route::resource('matriculas','MatriculaController',['only' => ['index']]); 
+Route::resource('matriculas','MatriculaController',['except' => ['edit']]); 
+Route::get('/matriculas/code','MatriculaController@code');

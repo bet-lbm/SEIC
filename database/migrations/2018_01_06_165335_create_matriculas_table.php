@@ -19,11 +19,10 @@ class CreateMatriculasTable extends Migration
             $table->foreign('alumno_id')->references('id')->on('alumnos');
             $table->integer('horario_id')->unsigned();
             $table->foreign('horario_id')->references('id')->on('horarios');
-            $table->float('monto');
-            $table->float('adelanto')->nullable();
-            $table->date('f_inicio');
-            $table->date('f_fin');
-            $table->string('estado');
+            $table->float('precioCurso');
+            $table->float('pago');
+            $table->date('fecha');
+            $table->boolean('estado')->default(true);
             $table->boolean('habilitado')->default(true);
             $table->timestamps();
         });

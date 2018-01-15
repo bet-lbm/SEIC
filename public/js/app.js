@@ -47789,14 +47789,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       date: new Date(),
       queryString: '',
+      curso: '',
+      H: '',
       alumnos: [],
-      fillAlumno: { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' }
+      cursos: [],
+      horarios: [],
+      fillAlumno: { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' },
+      newMatricula: { 'code': '', 'alumno_id': '', 'horario_id': '', 'precioCurso': '', 'pago': '', 'fecha': '', 'estado': '', 'habilitado': '' }
     };
   },
 
@@ -47805,7 +47838,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.date.toLocaleString("es-CL", { year: "numeric", month: "numeric", day: "numeric" });
     }
   },
+  created: function created() {
+    this.getCode();
+    this.getCurso();
+    this.dateFormat();
+  },
+
   methods: {
+    createMatricula: function createMatricula() {
+      var _this = this;
+
+      var input = this.newMatricula;
+      if (input['alumno_id'] == '' || input['horario_id'] == '' || input['fecha'] == '' || input['pago'] == '') {
+        toastr.warning('Complete todos los campos', { timeOut: 5000 });
+      } else {
+        axios.post('/matriculas', input).then(function (response) {
+          toastr.success('Matricula Realizada', { timeOut: 5000 });
+          _this.getCode();
+          _this.newMatricula = { 'code': '', 'alumno_id': '', 'horario_id': '', 'precioCurso': '', 'pago': '', 'fecha': '', 'estado': '', 'habilitado': '' }, _this.fillAlumno = { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' };
+          _this.horarios = [];
+          _this.curso = [];
+          _this.H = '';
+        });
+      };
+    },
+    dateFormat: function dateFormat() {
+      var date = new Date(this.date);
+      this.newMatricula.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+    },
+    getCode: function getCode() {
+      this.newMatricula.habilitado = true;
+      var that = this;
+      axios.get('/matriculas/code').then(function (response) {
+        that.newMatricula.code = response.data;
+      });
+    },
+    getCurso: function getCurso() {
+      var that = this;
+      axios.get('/cursos/combo').then(function (response) {
+        that.cursos = response.data;
+      });
+    },
+    getHorario: function getHorario(curso) {
+      var that = this;
+      axios.get('/horarios/curso/' + curso).then(function (response) {
+        that.horarios = response.data;
+      });
+    },
     getResults: function getResults() {
       var that = this;
       axios.get('/alumnos/search', { params: { queryString: this.queryString } }).then(function (response) {
@@ -47814,6 +47893,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     selectAlumno: function selectAlumno(alumno) {
+      this.newMatricula.alumno_id = alumno.id;
       this.fillAlumno.dni = alumno.dni;
       this.fillAlumno.nombres = alumno.nombres;
       this.fillAlumno.apellidos = alumno.apellidos;
@@ -47823,6 +47903,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       $("#show-item").modal('hide');
       this.queryString = '';
       this.alumnos = '';
+    },
+    selectHorario: function selectHorario(horario) {
+      this.newMatricula.horario_id = horario.id;
+      this.H = horario.dia + ' / ' + horario.hora_inicio + ' - ' + horario.hora_fin;
+    },
+    setEstado: function setEstado() {
+      var saldo = this.newMatricula.precioCurso - this.newMatricula.pago;
+      if (saldo == 0) {
+        this.newMatricula.estado = true;
+      } else {
+        this.newMatricula.estado = false;
+      }
     },
     showAlumno: function showAlumno() {
       $("#show-item").modal('show');
@@ -47842,7 +47934,12 @@ var render = function() {
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-title" }, [
         _c("div", { staticClass: "row line-head" }, [
-          _vm._m(0, false, false),
+          _c("h5", { staticClass: "col-md-6 col-sm-6 col-xs-6" }, [
+            _c("i", { staticClass: "fa fa-barcode" }),
+            _vm._v(" "),
+            _c("b", [_vm._v(" CÓDIGO DE MATRICULA :")]),
+            _vm._v("  " + _vm._s(_vm.newMatricula.code))
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-6 col-sm-6 col-xs-6" }, [
             _c("h5", { staticClass: "pull-right" }, [
@@ -47855,7 +47952,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
         _c("div", { staticClass: "row invoce-info line-head" }, [
-          _vm._m(1, false, false),
+          _vm._m(0, false, false),
           _vm._v(" "),
           _c("div", { staticClass: "col-sm-9 col-md-9 col-xs-6" }, [
             _c("address", [
@@ -47892,7 +47989,6 @@ var render = function() {
                 ),
                 _c("br"),
                 _c("i", { staticClass: "fa fa-phone" }),
-                _vm._v(" "),
                 _c("b", [_vm._v(" Teléfono:")]),
                 _vm._v(
                   "   " +
@@ -47928,12 +48024,236 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(2, false, false),
-        _vm._v(" "),
-        _vm._m(3, false, false)
+        _c("div", { staticClass: "row form-horizontal" }, [
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-md-8 col-sm-8 col-xs-12" }, [
+            _c(
+              "label",
+              { staticClass: "control-label col-md-2 col-sm-2 col-xs-6" },
+              [_vm._v("Curso: ")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-6" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.curso,
+                      expression: "curso"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { required: "required" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.curso = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function($event) {
+                        _vm.getHorario(_vm.curso)
+                      }
+                    ]
+                  }
+                },
+                _vm._l(_vm.cursos, function(curso) {
+                  return _c("option", { domProps: { value: curso.id } }, [
+                    _vm._v(_vm._s(curso.nombre))
+                  ])
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-8 col-md-offset-2 table-sm" }, [
+              _c("table", { staticClass: "table table-sm" }, [
+                _vm._m(1, false, false),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.horarios, function(horario) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(horario.dia))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(horario.hora_inicio) +
+                            " - " +
+                            _vm._s(horario.hora_fin)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(horario.aula_id))]),
+                      _vm._v(" "),
+                      _c("td", { attrs: { width: "10px" } }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn-link",
+                            attrs: { title: "Seleccionar" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.selectHorario(horario)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "fa fa-calendar-check-o",
+                              attrs: { "aria-hidden": "true" }
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4 col-xs-12 form-horizontal" }, [
+            _c("h5", { staticClass: "text-primary" }, [
+              _c("b", [
+                _c("i", { staticClass: "fa fa-clock-o" }),
+                _vm._v("  " + _vm._s(_vm.H))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("table", { staticClass: "table" }, [
+              _c("tbody", [
+                _c("tr", [
+                  _c("th", { staticStyle: { width: "50%" } }, [
+                    _vm._v("COSTO DE CURSO:")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "input-group" }, [
+                    _c("span", { staticClass: "input-group-addon" }, [
+                      _vm._v("S/.")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newMatricula.precioCurso,
+                          expression: "newMatricula.precioCurso"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.newMatricula.precioCurso },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.newMatricula,
+                            "precioCurso",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("th", [_vm._v("ADELANTO / PAGO:")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "input-group" }, [
+                    _c("span", { staticClass: "input-group-addon" }, [
+                      _vm._v("S/.")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newMatricula.pago,
+                          expression: "newMatricula.pago"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.newMatricula.pago },
+                      on: {
+                        keyup: function($event) {
+                          _vm.setEstado()
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.newMatricula,
+                            "pago",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("th", [_vm._v("SALDO:")]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "S/. " +
+                        _vm._s(
+                          _vm.newMatricula.precioCurso - _vm.newMatricula.pago
+                        )
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "card-footer" })
+      _c("div", { staticClass: "card-footer" }, [
+        _c("div", { staticClass: "row no-print" }, [
+          _c("div", { staticClass: "col-xs-12" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success pull-right",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.createMatricula()
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "fa fa-credit-card" }),
+                _vm._v(" Guardar Matricula")
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(2, false, false)
+          ])
+        ])
+      ])
     ]),
     _vm._v(" "),
     _c(
@@ -47953,50 +48273,54 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(4, false, false),
+              _vm._m(3, false, false),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "row top_search" }, [
-                  _c("label", { staticClass: "control-label col-md-3" }, [
-                    _vm._v("Buscar: ")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-group col-md-8" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.queryString,
-                          expression: "queryString"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        placeholder: "Nombres Y Apellidos",
-                        autofocus: "autofocus"
-                      },
-                      domProps: { value: _vm.queryString },
-                      on: {
-                        keyup: function($event) {
-                          _vm.getResults()
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.queryString = $event.target.value
-                        }
-                      }
-                    }),
+                _c(
+                  "div",
+                  { staticClass: "row form-horizontal top_search line-head" },
+                  [
+                    _c("label", { staticClass: "control-label col-md-3" }, [
+                      _vm._v(" Buscar: ")
+                    ]),
                     _vm._v(" "),
-                    _vm._m(5, false, false)
-                  ])
-                ]),
+                    _c("div", { staticClass: "input-group col-md-7" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.queryString,
+                            expression: "queryString"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Nombres y apellidos",
+                          autofocus: "autofocus"
+                        },
+                        domProps: { value: _vm.queryString },
+                        on: {
+                          keyup: function($event) {
+                            _vm.getResults()
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.queryString = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(4, false, false)
+                    ])
+                  ]
+                ),
                 _vm._v(" "),
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(6, false, false),
+                  _vm._m(5, false, false),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -48045,17 +48369,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h5", { staticClass: "col-md-6 col-sm-6 col-xs-6" }, [
-      _c("i", { staticClass: "fa fa-barcode" }),
-      _vm._v(" "),
-      _c("b", [_vm._v(" CÓDIGO DE MATRICULA :")]),
-      _vm._v("  M22-00012")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("h3", { staticClass: "text-center " }, [
         _c("i", { staticClass: "fa fa-graduation-cap" }),
@@ -48070,27 +48383,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row form-horizontal" }, [
-      _c("br"),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-8  col-sm-8  col-xs-12" }, [
-        _c(
-          "label",
-          { staticClass: "control-label col-md-3 col-sm-3 col-xs-6" },
-          [_vm._v("Seleccionar Curso: ")]
-        ),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticStyle: { width: "35%" } }, [_vm._v("Dia")]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-9 col-sm-9 col-xs-6" }, [
-          _c(
-            "select",
-            { staticClass: "form-control", attrs: { required: "required" } },
-            [
-              _c("option", [_vm._v("A")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("B")])
-            ]
-          )
-        ])
+        _c("th", { staticStyle: { width: "35%" } }, [_vm._v("Horario")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Aula")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "1" } }, [_vm._v(" ")])
       ])
     ])
   },
@@ -48098,35 +48399,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-xs-5" }, [
-        _c("div", { staticClass: "table-responsive" }, [
-          _c("table", { staticClass: "table" }, [
-            _c("tbody", [
-              _c("tr", [
-                _c("th", { staticStyle: { width: "50%" } }, [
-                  _vm._v("OP. GRAVADA:")
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("S/. 100")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("th", [_vm._v("IGV (18%)")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("S/. 10")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("th", [_vm._v("TOTAL:")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("S/.110")])
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-default pull-right",
+        staticStyle: { "margin-right": "5px" }
+      },
+      [_c("i", { staticClass: "fa fa-print" }), _vm._v("Imprimir")]
+    )
   },
   function() {
     var _vm = this
@@ -48143,7 +48423,8 @@ var staticRenderFns = [
       ),
       _vm._v(" "),
       _c("h5", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
-        _vm._v(" Buscar alumno ")
+        _c("i", { staticClass: "fa fa-user-circle-o" }),
+        _vm._v(" ALUMNOS")
       ])
     ])
   },

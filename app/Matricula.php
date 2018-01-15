@@ -10,7 +10,7 @@ class Matricula extends Model
 {
     protected $table = 'matriculas';
 
-    protected $filltable = ['code','alumno_id','horario_id','monto','adelanto','f_inicio','f_fin','estado','habilitado'];
+    protected $filltable = ['code','alumno_id','horario_id','precioCurso','pago','fecha','estado','habilitado'];
 
     public function alumno()
     {
