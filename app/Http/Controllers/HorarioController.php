@@ -116,5 +116,9 @@ class HorarioController extends Controller
         return response()->json(['done']);
     }
 
-
+    public function findHorario($curso)
+    {
+        $horario = Horario::where('curso_id','=',$curso)->orderBy('hora_inicio','asc')->get();
+        return response()->json($horario);
+    }
 }

@@ -4,13 +4,15 @@
     		<div class="card">
                 <h5 class="card-title"> </h5>
                 <div class="card-body">
-                    <div class="col-md-4 pull-right top_search">
-                        <div class="input-group">
-                            <input class="form-control" type="text" v-model="queryString" v-on:keyup="getResults()" placeholder="Buscar">
-                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <div class="row">
+                        <div class="col-md-4 pull-right top_search">
+                            <div class="input-group">
+                                <input class="form-control" type="text" v-model="queryString" v-on:keyup="getResults()" placeholder="Buscar">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            </div>
                         </div>
                     </div>
-                    <div></div>
+                    <div class="line-head"></div>
         			<table class="table table-hover" role="grid"> 
         				<thead>
         					<tr>

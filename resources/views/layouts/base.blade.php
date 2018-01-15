@@ -71,7 +71,7 @@
           </div>
           <!-- Sidebar Menu-->
           <ul class="sidebar-menu">
-            <li class="treeview"><a href="#"><i class="fa fa-laptop"></i><span>Mantenimiento</span><i class="fa fa-angle-right"></i></a>
+            <li class="treeview"><a href="#"><i class="fa fa-cog"></i><span>Mantenimiento</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="{{ route('aulas.list') }}"><i class="fa fa-circle-o"></i>Aulas</a></li>
                 <li><a href="{{ route('alumnos.list') }}"><i class="fa fa-circle-o"></i>Alumnos</a></li>
@@ -79,12 +79,12 @@
                 <li><a href="{{ route('horarios.list') }}"><i class="fa fa-circle-o"></i>Horarios</a></li>
               </ul>
             </li>
+            <li class="treeview"><a href="{{ route('matriculas.create') }}"><i class="fa fa-desktop"></i><span>Matriculas</span></a></li>
             <li class="treeview"><a href="#"><i class="fa fa-edit"></i><span>Procesos</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="form-components.html"><i class="fa fa-circle-o"></i>Asistencia</a></li>
                 <li><a href="form-custom.html"><i class="fa fa-circle-o"></i>Certificados</a></li>
                 <li><a href="form-samples.html"><i class="fa fa-circle-o"></i>Leccion</a></li>
-                <li><a href="form-notifications.html"><i class="fa fa-circle-o"> Matriculas</i></a></li>
                 <li><a href="form-notifications.html"><i class="fa fa-circle-o"> Notas</i></a></li>
               </ul>
             </li>

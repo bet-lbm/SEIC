@@ -25,6 +25,7 @@ Vue.component('horarios',require('./components/Horarios.vue'));
 Vue.component('addhorario',require('./components/HorarioCrear.vue'));
 Vue.component('temas',require('./components/Temas.vue'));
 Vue.component('addtema',require('./components/TemaCrear.vue'));
+Vue.component('addmatricula',require('./components/MatriculaCrear.vue'));
 //-------------------------------------------------------
 const app = new Vue({
     el: '#app'
