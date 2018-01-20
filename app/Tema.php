@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Horario;
 use Illuminate\Database\Eloquent\Model;
 
 class Tema extends Model

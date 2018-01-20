@@ -84,8 +84,8 @@
               <ul class="treeview-menu">
                 <li><a href="form-components.html"><i class="fa fa-circle-o"></i>Asistencia</a></li>
                 <li><a href="form-custom.html"><i class="fa fa-circle-o"></i>Certificados</a></li>
-                <li><a href="form-samples.html"><i class="fa fa-circle-o"></i>Leccion</a></li>
-                <li><a href="form-notifications.html"><i class="fa fa-circle-o"> Notas</i></a></li>
+                <li><a href="{{ route('temas.list') }}"><i class="fa fa-circle-o"></i>Leccion</a></li>
+                <li><a href="{{ route('notas.list') }}"><i class="fa fa-circle-o"> Notas</i></a></li>
               </ul>
             </li>
             <li class="treeview"><a href="#"><i class="fa fa-th-list"></i><span>Reportes</span><i class="fa fa-angle-right"></i></a>
