@@ -15,7 +15,11 @@ class CreateCertificadosTable extends Migration
     {
         Schema::create('certificados', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('nota_id')->unsigned();
+            $table->foreign('nota_id')->references('id')->on('notas');
+            $table->date('fecha');
             $table->timestamps();
+
         });
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Certificado;
+use DB;
 use Illuminate\Http\Request;
 
 class CertificadoController extends Controller
@@ -11,9 +13,22 @@ class CertificadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getIndex(){
+        return view('certificados.index');
+    }
     public function index()
     {
-        //
+       $certificados = DB::table('certificados')
+                          ->join('notas','certificados.nota_id','=','notas.id')
+                          ->join('matriculas','notas.matricula_id','=','matriculas.code')
+                          ->join('alumnos','matriculas.alumno_id','=','alumnos.id')
+                          ->join('horarios','matriculas.horario_id','=','horarios.id')
+                          ->join('cursos','horarios.curso_id','=','cursos.id')
+                          ->select('certificados.id','certificados.fecha','matriculas.code','notas.nota','alumnos.nombres','alumnos.apellidos','horarios.dia','cursos.nombre')
+                          ->get();
+        
+        return response()->json($certificados);
+
     }
 
     /**
@@ -34,51 +49,24 @@ class CertificadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'nota_id'=>'required',
+            'fecha'=>'required',
+        ]);
+        $create=Certificado::create($request->all());
+        return response()->json($create);   
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function combo($dni){
+        $certificados = DB::table('notas')
+                          ->join('matriculas','notas.matricula_id','=','matriculas.code')
+                          ->join('alumnos','matriculas.alumno_id','=','alumnos.id')
+                          ->join('horarios','matriculas.horario_id','=','horarios.id')
+                          ->join('cursos','horarios.curso_id','=','cursos.id')
+                          ->select('notas.id','matriculas.code','notas.nota','alumnos.dni','alumnos.nombres','alumnos.apellidos','cursos.nombre')
+                          ->where('alumnos.dni','=',$dni)->get();
+        
+        return response()->json($certificados);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+  
 }

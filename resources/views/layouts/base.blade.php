@@ -83,7 +83,7 @@
             <li class="treeview"><a href="#"><i class="fa fa-edit"></i><span>Procesos</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="form-components.html"><i class="fa fa-circle-o"></i>Asistencia</a></li>
-                <li><a href="form-custom.html"><i class="fa fa-circle-o"></i>Certificados</a></li>
+                <li><a href="{{ route('certificados.list') }}"><i class="fa fa-circle-o"></i>Certificados</a></li>
                 <li><a href="{{ route('temas.list') }}"><i class="fa fa-circle-o"></i>Leccion</a></li>
                 <li><a href="{{ route('notas.list') }}"><i class="fa fa-circle-o"> Notas</i></a></li>
               </ul>

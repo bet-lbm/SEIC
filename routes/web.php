@@ -53,3 +53,7 @@ Route::resource('notas','NotaController',['except' => ['edit','update','destroy'
 Route::resource('asistencia','AsistenciaController',['except' => ['edit','update','destroy']]); 
 // *********************************************
 
+//---------------------------------Certificado---------------------------------------
+Route::name('certificados.list')->get('/cerificados/list','CertificadoController@getIndex');
+Route::get('/certificados/combo/{dni}','CertificadoController@combo');
+Route::resource('certificados','CertificadoController',['except'=>['edit','update','destroy']]);
