@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Alumno;
 use App\Matricula;
 use Illuminate\Http\Request;
+use DB;
 
 class MatriculaController extends Controller
 {
@@ -14,7 +16,7 @@ class MatriculaController extends Controller
      */
     public function index()
     {
-        
+        //
     }
 
     /**
@@ -43,7 +45,7 @@ class MatriculaController extends Controller
             'pago' => 'required',
             'fecha' => 'required',
             'estado' => 'required',
-            'habilitado' => 'required'  
+            'habilitado' => 'required',  
         ]);
         $create = Matricula::create($request->all());
         return response()->json($create);
@@ -61,6 +63,17 @@ class MatriculaController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Matricula  $matricula
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Matricula $matricula)
+    {
+        //
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -72,6 +85,16 @@ class MatriculaController extends Controller
         //
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Matricula  $matricula
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Matricula $matricula)
+    {
+        //
+    }
     public function code(){
         $max = Matricula::count();
         if ($max > 0) {
@@ -87,5 +110,13 @@ class MatriculaController extends Controller
             $formato = "MC-".str_pad($Strsig,"7","0",STR_PAD_LEFT);
         }
         return $formato;
+    }
+    public function getAlumno($dni){
+        $alumno=DB::table('matriculas')
+                    ->join('alumnos','matriculas.alumno_id','=','alumnos.id')
+                    ->select('matriculas.code','matriculas.estado','alumnos.dni','alumnos.nombres','alumnos.apellidos','alumnos.sexo')
+                    ->where('alumnos.dni','=',$dni)
+                    ->first();
+        return response()->json($alumno);
     }
 }

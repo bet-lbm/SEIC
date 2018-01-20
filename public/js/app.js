@@ -17303,7 +17303,7 @@ return zhTw;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(132);
-module.exports = __webpack_require__(194);
+module.exports = __webpack_require__(197);
 
 
 /***/ }),
@@ -17339,6 +17339,8 @@ Vue.component('temas', __webpack_require__(180));
 Vue.component('addtema', __webpack_require__(183));
 Vue.component('addmatricula', __webpack_require__(188));
 Vue.component('notas', __webpack_require__(191));
+Vue.component('addasistencia', __webpack_require__(194));
+
 //-------------------------------------------------------
 var app = new Vue({
   el: '#app'
@@ -65520,107 +65522,107 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      date: new Date(),
-      queryString: '',
-      curso: '',
-      H: '',
-      alumnos: [],
-      cursos: [],
-      horarios: [],
-      fillAlumno: { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' },
-      newMatricula: { 'code': '', 'alumno_id': '', 'horario_id': '', 'precioCurso': '', 'pago': '', 'fecha': '', 'estado': '', 'habilitado': '' }
-    };
-  },
+    data: function data() {
+        return {
+            date: new Date(),
+            queryString: '',
+            curso: '',
+            H: '',
+            alumnos: [],
+            cursos: [],
+            horarios: [],
+            fillAlumno: { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' },
+            newMatricula: { 'code': '', 'alumno_id': '', 'horario_id': '', 'precioCurso': '', 'pago': '', 'fecha': '', 'estado': '', 'habilitado': '' }
+        };
+    },
 
-  computed: {
-    today: function today() {
-      return this.date.toLocaleString("es-CL", { year: "numeric", month: "numeric", day: "numeric" });
+    computed: {
+        today: function today() {
+            return this.date.toLocaleString("es-CL", { year: "numeric", month: "numeric", day: "numeric" });
+        }
+    },
+    created: function created() {
+        this.getCode();
+        this.getCurso();
+        this.dateFormat();
+    },
+
+    methods: {
+        dateFormat: function dateFormat() {
+            var date = new Date(this.date);
+            this.newMatricula.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        },
+        getCode: function getCode() {
+            this.newMatricula.habilitado = true;
+            var that = this;
+            axios.get('/matriculas/code').then(function (response) {
+                that.newMatricula.code = response.data;
+            });
+        },
+        getCurso: function getCurso() {
+            var that = this;
+            axios.get('/cursos/combo').then(function (response) {
+                that.cursos = response.data;
+            });
+        },
+        getHorario: function getHorario(curso) {
+            var that = this;
+            axios.get('/horarios/curso/' + curso).then(function (response) {
+                that.horarios = response.data;
+            });
+        },
+        getResults: function getResults() {
+            var that = this;
+            axios.get('/alumnos/search', { params: { queryString: this.queryString } }).then(function (response) {
+                that.alumnos = response.data.data.data;
+            });
+        },
+
+        selectAlumno: function selectAlumno(alumno) {
+            this.newMatricula.alumno_id = alumno.id;
+            this.fillAlumno.dni = alumno.dni;
+            this.fillAlumno.nombres = alumno.nombres;
+            this.fillAlumno.apellidos = alumno.apellidos;
+            this.fillAlumno.direccion = alumno.direccion;
+            this.fillAlumno.email = alumno.email;
+            this.fillAlumno.telefono = alumno.telefono;
+            $("#show-item").modal('hide');
+            this.queryString = '';
+            this.alumnos = '';
+        },
+        selectHorario: function selectHorario(horario) {
+            this.newMatricula.horario_id = horario.id;
+            this.H = horario.dia + ' / ' + horario.hora_inicio + ' - ' + horario.hora_fin;
+        },
+        setEstado: function setEstado() {
+            var saldo = this.newMatricula.precioCurso - this.newMatricula.pago;
+            if (saldo == 0) {
+                this.newMatricula.estado = true;
+            } else {
+                this.newMatricula.estado = false;
+            }
+        },
+        showAlumno: function showAlumno() {
+            $("#show-item").modal('show');
+        },
+        createMatricula: function createMatricula() {
+            var _this = this;
+
+            var input = this.newMatricula;
+            if (input['alumno_id'] == '' || input['horario_id'] == '' || input['fecha'] == '' || input['pago'] == '') {
+                toastr.warning('Complete todos los campos', { timeOut: 5000 });
+            } else {
+                axios.post('/matriculas', input).then(function (response) {
+                    _this.getCode();
+                    _this.newMatricula = { 'code': '', 'alumno_id': '', 'horario_id': '', 'precioCurso': '', 'pago': '', 'fecha': '', 'estado': '', 'habilitado': '' }, _this.fillAlumno = { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' };
+                    _this.horarios = [];
+                    _this.curso = [];
+                    _this.H = '';
+                    toastr.success('Matricula Realizada', { timeOut: 5000 });
+                });
+            }
+        }
     }
-  },
-  created: function created() {
-    this.getCode();
-    this.getCurso();
-    this.dateFormat();
-  },
-
-  methods: {
-    createMatricula: function createMatricula() {
-      var _this = this;
-
-      var input = this.newMatricula;
-      if (input['alumno_id'] == '' || input['horario_id'] == '' || input['fecha'] == '' || input['pago'] == '') {
-        toastr.warning('Complete todos los campos', { timeOut: 5000 });
-      } else {
-        axios.post('/matriculas', input).then(function (response) {
-          toastr.success('Matricula Realizada', { timeOut: 5000 });
-          _this.getCode();
-          _this.newMatricula = { 'code': '', 'alumno_id': '', 'horario_id': '', 'precioCurso': '', 'pago': '', 'fecha': '', 'estado': '', 'habilitado': '' }, _this.fillAlumno = { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' };
-          _this.horarios = [];
-          _this.curso = [];
-          _this.H = '';
-        });
-      };
-    },
-    dateFormat: function dateFormat() {
-      var date = new Date(this.date);
-      this.newMatricula.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-    },
-    getCode: function getCode() {
-      this.newMatricula.habilitado = true;
-      var that = this;
-      axios.get('/matriculas/code').then(function (response) {
-        that.newMatricula.code = response.data;
-      });
-    },
-    getCurso: function getCurso() {
-      var that = this;
-      axios.get('/cursos/combo').then(function (response) {
-        that.cursos = response.data;
-      });
-    },
-    getHorario: function getHorario(curso) {
-      var that = this;
-      axios.get('/horarios/curso/' + curso).then(function (response) {
-        that.horarios = response.data;
-      });
-    },
-    getResults: function getResults() {
-      var that = this;
-      axios.get('/alumnos/search', { params: { queryString: this.queryString } }).then(function (response) {
-        that.alumnos = response.data.data.data;
-      });
-    },
-
-    selectAlumno: function selectAlumno(alumno) {
-      this.newMatricula.alumno_id = alumno.id;
-      this.fillAlumno.dni = alumno.dni;
-      this.fillAlumno.nombres = alumno.nombres;
-      this.fillAlumno.apellidos = alumno.apellidos;
-      this.fillAlumno.direccion = alumno.direccion;
-      this.fillAlumno.email = alumno.email;
-      this.fillAlumno.telefono = alumno.telefono;
-      $("#show-item").modal('hide');
-      this.queryString = '';
-      this.alumnos = '';
-    },
-    selectHorario: function selectHorario(horario) {
-      this.newMatricula.horario_id = horario.id;
-      this.H = horario.dia + ' / ' + horario.hora_inicio + ' - ' + horario.hora_fin;
-    },
-    setEstado: function setEstado() {
-      var saldo = this.newMatricula.precioCurso - this.newMatricula.pago;
-      if (saldo == 0) {
-        this.newMatricula.estado = true;
-      } else {
-        this.newMatricula.estado = false;
-      }
-    },
-    showAlumno: function showAlumno() {
-      $("#show-item").modal('show');
-    }
-  }
 });
 
 /***/ }),
@@ -66072,7 +66074,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("h3", { staticClass: "text-center " }, [
-        _c("i", { staticClass: "fa fa-graduation-cap" }),
+        _c("i", { staticClass: "fa fa-lg fa-graduation-cap" }),
         _c("br"),
         _vm._v("SEIC"),
         _c("br"),
@@ -66567,6 +66569,333 @@ if (false) {
 
 /***/ }),
 /* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(195)
+/* template */
+var __vue_template__ = __webpack_require__(196)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AsistenciaCrear.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-23cc1434", Component.options)
+  } else {
+    hotAPI.reload("data-v-23cc1434", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 195 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            date: new Date(),
+            dni: '',
+            newItem: { 'matricula_id': '' },
+            fillItem: { 'code': '', 'estado': '', 'nombres': '', 'apellidos': '', 'sexo': '' }
+        };
+    },
+
+    computed: {
+        getDate: function getDate() {
+            return this.date.toLocaleString("es-CL", { year: "numeric", month: "numeric", day: "numeric" });
+        },
+        getHora: function getHora() {
+            return this.date.getHours() + ':' + this.date.getMinutes() + ':' + this.date.getSeconds();
+        }
+    },
+    methods: {
+        getAlumno: function getAlumno(dni) {
+            var that = this;
+            axios.get('/matriculas/alumno/' + dni).then(function (response) {
+                that.newItem.matricula_id = response.data.code;
+                that.fillItem.code = response.data.code;
+                that.fillItem.nombres = response.data.nombres;
+                that.fillItem.apellidos = response.data.apellidos;
+                that.fillItem.estado = response.data.estado;
+                that.fillItem.sexo = response.data.sexo;
+            });
+        },
+        createMatricula: function createMatricula() {
+            var _this = this;
+
+            var input = this.newItem;
+            if (input['matricula_id'] == '') {
+                toastr.warning('Complete todos los campos', { timeOut: 5000 });
+            } else {
+                axios.post('/asistencia', input).then(function (response) {
+                    console.log('que pasa');
+                    _this.newItem = { 'matricula_id': '' };
+                    _this.dni = '';
+                    toastr.success('Asistencia registrada ' + _this.fillItem.nombres, { timeOut: 5000 });
+                });
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-3" }, [
+      _c("div", { staticClass: "widget" }, [
+        _c("h1", { staticClass: "text-center text-info" }, [
+          _c("i", { staticClass: "fa fa-clock-o fa-3x" }),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(
+            "\n            \t\t" + _vm._s(_vm.getHora) + "\n            \t"
+          )
+        ]),
+        _vm._v(" "),
+        _c("h4", { staticClass: "text-center text-info" }, [
+          _vm._v(" " + _vm._s(_vm.getDate))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-8 " }, [
+      _c("div", { staticClass: "card" }, [
+        _c("br"),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.dni,
+                      expression: "dni"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    placeholder: "DNI",
+                    autofocus: "autofocus"
+                  },
+                  domProps: { value: _vm.dni },
+                  on: {
+                    keyup: function($event) {
+                      _vm.getAlumno(_vm.dni)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.dni = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-8" }, [
+              _c("div", { staticClass: "panel panel-primary" }, [
+                _c("div", { staticClass: "panel-heading" }, [
+                  _c("h4", { staticClass: "panel-title text-center" }, [
+                    _vm._v(_vm._s(_vm.fillItem.code))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "panel-body" }, [
+                  _vm.fillItem.sexo === ""
+                    ? _c("i", {
+                        staticClass:
+                          "fa fa-user-circle fa-4x pull-right text-primary"
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.fillItem.sexo === "M"
+                    ? _c("i", {
+                        staticClass: "fa fa-male fa-4x pull-right text-primary"
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.fillItem.sexo === "F"
+                    ? _c("i", {
+                        staticClass:
+                          "fa fa-female fa-4x pull-right text-primary"
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("h4", [
+                    _c("em", [
+                      _vm._v(
+                        _vm._s(_vm.fillItem.nombres) +
+                          " " +
+                          _vm._s(_vm.fillItem.apellidos)
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.fillItem.estado === 0
+                    ? _c("h5", { staticClass: "text-danger" }, [
+                        _c("b", [_vm._v("DEUDA PENDIENTE")])
+                      ])
+                    : _vm._e()
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-footer" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-xs-12" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success pull-right",
+                  staticStyle: { "margin-right": "5px" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.createMatricula()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-fw fa-lg fa-check-circle" }),
+                  _vm._v(" Registrar")
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "card-title" }, [
+      _c("i", { staticClass: "fa fa-lg fa-id-card-o" }),
+      _vm._v(" "),
+      _c("em", [_vm._v(" Ingrese número de DNI:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-default pull-right" }, [
+      _c("i", { staticClass: "fa fa-fw fa-lg fa-times-circle" }),
+      _vm._v(" Cancelar")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-23cc1434", module.exports)
+  }
+}
+
+/***/ }),
+/* 197 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

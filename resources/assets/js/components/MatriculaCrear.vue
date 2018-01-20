@@ -14,7 +14,7 @@
 			<div class="row invoce-info line-head">
 				<div class="col-md-3">
 			        <h3 class="text-center ">
-                        <i class="fa fa-graduation-cap"></i><br>SEIC<br><small>CAPACITACIONES</small>
+                        <i class="fa fa-lg fa-graduation-cap"></i><br>SEIC<br><small>CAPACITACIONES</small>
                     </h3>
 				</div>
 				<div class="col-sm-9 col-md-9 col-xs-6">
@@ -174,82 +174,82 @@ export default{
 		this.dateFormat();
 	},
 	methods:{
-		createMatricula: function(){
-			var input = this.newMatricula;
-			if((input['alumno_id'] == '')||(input['horario_id'] == '')||(input['fecha'] == '')||(input['pago'] == '')){
-                    toastr.warning('Complete todos los campos', {timeOut: 5000});
-            }
-            else{
-                axios.post('/matriculas',input).then(response => {            
-                    toastr.success('Matricula Realizada',{timeOut: 5000});
-                    this.getCode();
-	                this.newMatricula= {'code':'','alumno_id':'','horario_id':'','precioCurso':'','pago':'','fecha':'','estado':'','habilitado':''},
-	                this.fillAlumno = {'id': '','dni':'','nombres':'','apellidos':'','sexo':'','direccion':'','email':'','telefono':''};
-	                this.horarios=[];
-	                this.curso=[];
-	                this.H = '';
-                });
-            };
-		},
-		dateFormat: function() {
+        dateFormat: function() {
             let date = new Date(this.date);
             this.newMatricula.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-'+ ('0' + date.getDate()).slice(-2);
         },
         getCode:function(){
-        	this.newMatricula.habilitado = true;
-        	var that =  this;
-        	axios.get('/matriculas/code').then( function (response) {
+            this.newMatricula.habilitado = true;
+            var that =  this;
+            axios.get('/matriculas/code').then( function (response) {
                 that.newMatricula.code = response.data;
             });
         },
-		getCurso: function(){
-			var that=this;
-			axios.get('/cursos/combo').then(function(response){
-				that.cursos=response.data;
-			});
-		},
-		getHorario: function(curso){
-			var that=this;
-			axios.get('/horarios/curso/'+curso).then(function(response){
-				that.horarios=response.data;
-			});
-		},
-		getResults(){
+        getCurso: function(){
+            var that=this;
+            axios.get('/cursos/combo').then(function(response){
+                that.cursos=response.data;
+            });
+        },
+        getHorario: function(curso){
+            var that=this;
+            axios.get('/horarios/curso/'+curso).then(function(response){
+                that.horarios=response.data;
+            });
+        },
+        getResults(){
             var that=this;
             axios.get('/alumnos/search',{params:{queryString:this.queryString}}).then(response=>{
                 that.alumnos=response.data.data.data;
             })
         },
         selectAlumno: function(alumno){
-        	this.newMatricula.alumno_id = alumno.id;
-        	this.fillAlumno.dni = alumno.dni;
-        	this.fillAlumno.nombres = alumno.nombres;
-        	this.fillAlumno.apellidos = alumno.apellidos;
-        	this.fillAlumno.direccion = alumno.direccion;
-        	this.fillAlumno.email = alumno.email;
-        	this.fillAlumno.telefono = alumno.telefono;
-        	$("#show-item").modal('hide');
+            this.newMatricula.alumno_id = alumno.id;
+            this.fillAlumno.dni = alumno.dni;
+            this.fillAlumno.nombres = alumno.nombres;
+            this.fillAlumno.apellidos = alumno.apellidos;
+            this.fillAlumno.direccion = alumno.direccion;
+            this.fillAlumno.email = alumno.email;
+            this.fillAlumno.telefono = alumno.telefono;
+            $("#show-item").modal('hide');
             this.queryString = '';
             this.alumnos = '';
         },
         selectHorario: function(horario){
-        	this.newMatricula.horario_id = horario.id;
-        	this.H = horario.dia + ' / ' + horario.hora_inicio + ' - ' + horario.hora_fin ;
+            this.newMatricula.horario_id = horario.id;
+            this.H = horario.dia + ' / ' + horario.hora_inicio + ' - ' + horario.hora_fin ;
         },
         setEstado: function(){
-        	var saldo = this.newMatricula.precioCurso - this.newMatricula.pago; 	
-        	if (saldo == 0) 
-        	{
-        		this.newMatricula.estado = true;
-        	} 
-        	else 
-        	{
-        		this.newMatricula.estado = false;
-        	}
+            var saldo = this.newMatricula.precioCurso - this.newMatricula.pago;     
+            if (saldo == 0) 
+            {
+                this.newMatricula.estado = true;
+            } 
+            else 
+            {
+                this.newMatricula.estado = false;
+            }
         },
-		showAlumno: function(){
-			$("#show-item").modal('show');
+        showAlumno: function(){
+            $("#show-item").modal('show');
+        },
+		createMatricula: function(){
+			var input = this.newMatricula;
+			if((input['alumno_id'] == '')||(input['horario_id'] == '')||(input['fecha'] == '')||(input['pago'] == '')){
+                    toastr.warning('Complete todos los campos', {timeOut: 5000});
+            }
+            else{
+                axios.post('/matriculas',input).then(response => { 
+                    this.getCode();
+	                this.newMatricula= {'code':'','alumno_id':'','horario_id':'','precioCurso':'','pago':'','fecha':'','estado':'','habilitado':''},
+	                this.fillAlumno = {'id': '','dni':'','nombres':'','apellidos':'','sexo':'','direccion':'','email':'','telefono':''};
+	                this.horarios=[];
+	                this.curso=[];
+	                this.H = '';
+                    toastr.success('Matricula Realizada',{timeOut: 5000});
+                });
+            }
 		}
-	}
+    }
 }
 </script>

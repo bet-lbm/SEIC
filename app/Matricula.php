@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Alumno;
+use App\Asistencia;
 use App\Horario;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,5 +21,9 @@ class Matricula extends Model
     public function horario()
     {
     	return $this->belongsTo(Horario::class);
+    }
+    public function asistencia()
+    {
+        return $this->hasMany(Asistencia::class);
     }
 }
