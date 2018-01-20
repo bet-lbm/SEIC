@@ -33,11 +33,6 @@
 									</button>
 								</td>
 								<td width="10px">
-									<button class="btn-link" title="Edit">
-										<i class="fa fa-pencil-square-o"></i>
-									</button>
-								</td>
-								<td width="10px">
 									<button class="btn-link" title="Delete" @click.prevent="deleteItem(item)">
 										<i class="fa fa-trash-o"></i>
 									</button>
@@ -82,29 +77,29 @@
                         <h5 class="card-title"><i class="fa fa-laptop"></i><b> {{ fillItem.tema }} </b></h5>    
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <p class="col-md-6 col-sm-6 col-xs-6"> <i class="fa fa-clock-o"></i> fecha:</p>
-                                    <p class="col-md-6 col-sm-6 col-xs-6">{{ fillItem.fecha }} </p>
+                                <div class="col-md-12 col-sm-6 col-xs-6">
+                                    <p class="col-md-3 col-sm-3 col-xs-3">fecha:</p>
+                                    <p class="col-md-9 col-sm-9 col-xs-9">{{ fillItem.fecha }} </p>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <p class="col-md-9 col-sm-9 col-xs-9"><i class="fa fa-users"></i> descripcion:</p>
-                                    <p class="col-md-3 col-sm-3 col-xs-3"> {{ fillItem.descripcion }} </p>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <p class="col-md-3 col-sm-3 col-xs-3">descripcion:</p>
+                                    <p class="col-md-9 col-sm-9 col-xs-9"> {{ fillItem.descripcion }} </p>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <p class="col-md-9 col-sm-9 col-xs-9"><i class="fa fa-users"></i> dia:</p>
-                                    <p class="col-md-3 col-sm-3 col-xs-3"> {{ fillItem.dia }} </p>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <p class="col-md-3 col-sm-3 col-xs-3">dia:</p>
+                                    <p class="col-md-9 col-sm-9 col-xs-9"> {{ fillItem.dia }} </p>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <p class="col-md-9 col-sm-9 col-xs-9"><i class="fa fa-users"></i> Hora:</p>
-                                    <p class="col-md-3 col-sm-3 col-xs-3"> {{ fillItem.hora_inicio }} </p>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <p class="col-md-3 col-sm-3 col-xs-3">Hora:</p>
+                                    <p class="col-md-6 col-sm-6 col-xs-6"> {{ fillItem.hora_inicio }} </p>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <p class="col-md-9 col-sm-9 col-xs-9"><i class="fa fa-users"></i> Nombre:</p>
-                                    <p class="col-md-3 col-sm-3 col-xs-3"> {{ fillItem.nombre }} </p>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <p class="col-md-3 col-sm-3 col-xs-3">Nombre:</p>
+                                    <p class="col-md-9 col-sm-9 col-xs-9"> {{ fillItem.nombre }} </p>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <p class="col-md-9 col-sm-9 col-xs-9"><i class="fa fa-users"></i> aula:</p>
-                                    <p class="col-md-3 col-sm-3 col-xs-3"> {{ fillItem.numero_aula }} </p>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <p class="col-md-3 col-sm-3 col-xs-3">aula:</p>
+                                    <p class="col-md-9 col-sm-9 col-xs-9"> {{ fillItem.numero_aula }} </p>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +196,7 @@
 						that.fillItem.dia = response.data.dia;
 						that.fillItem.hora_inicio = response.data.hora_inicio;
 						that.fillItem.nombre = response.data.nombre;
-						that.fillItem.numero_aula = response.data.aula_numero;
+						that.fillItem.numero_aula = response.data.numero_aula;
 					});
 					$("#show-item").modal('show');
 					console.log('estoy aca');

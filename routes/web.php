@@ -44,8 +44,17 @@ Route::get('/matriculas/alumno/{dni}','MatriculaController@getAlumno');
 Route::get('/matriculas/code','MatriculaController@code');
 Route::resource('matriculas','MatriculaController',['except' => ['edit']]); 
 
+//-------------------------------------NOTAS----------------------------------------
+Route::name('notas.list')->get('/notas/list','NotaController@index');
+Route::get('/notas/combo/{dni}','NotaController@combo');
+Route::resource('notas','NotaController',['except' => ['edit','update','destroy']]); 
+
 // ************** ASISTENCIA *******************
 Route::name('asistencias.alumno')->get('/asistencias/alumno','AsistenciaController@getIndexAlumno');
 Route::get('/asistencias/search/{code}','AsistenciaController@search');
 Route::resource('asistencias','AsistenciaController',['only' => ['create','store']]); 
-// *********************************************
+//---------------------------------Certificado---------------------------------------
+Route::name('certificados.list')->get('/cerificados/list','CertificadoController@getIndex');
+Route::get('/certificados/combo/{dni}','CertificadoController@combo');
+Route::resource('certificados','CertificadoController',['except'=>['edit','update','destroy']]);
+

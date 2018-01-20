@@ -136,7 +136,7 @@ class TemaController extends Controller
                     ->join('cursos','horarios.curso_id','=','cursos.id')
                     ->join('aulas','horarios.aula_id','=','aulas.id')
                     ->select('temas.id','temas.tema','temas.fecha','temas.descripcion','horarios.dia','horarios.hora_inicio','cursos.nombre','aulas.numero_aula')
-                    ->where('temas.id','=',$id)->get();
+                    ->where('temas.id','=',$id)->first();
         return response()->json($temas);
     }
 }
