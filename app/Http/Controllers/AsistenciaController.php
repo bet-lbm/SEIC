@@ -7,14 +7,10 @@ use Illuminate\Http\Request;
 
 class AsistenciaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    
+    public function getIndexAlumno()
     {
-        //
+        return view('asistencias.alumno');
     }
 
     /**
@@ -36,20 +32,16 @@ class AsistenciaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'matricula_id' => 'required'
+            'matricula_id' => 'required',
         ]);
         $create = Asistencia::create($request->all());
         return response()->json($create);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Asistencia  $asistencia
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Asistencia $asistencia)
+    public function search($code)
     {
-        //
+        $asistencias = Asistencia::where('matricula_id','=',$code)
+                       ->orderBy('created_at', 'asc')->get();
+        return response()->json($asistencias);
     }
 }

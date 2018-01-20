@@ -17,10 +17,27 @@
         			<div class="row">
         				<div class="col-md-4">
         					<div class="form-group">
-        						<input class="form-control" type="text" placeholder="DNI" autofocus="autofocus" v-model="dni" v-on:keyup="getAlumno(dni)">
+        						<input class="form-control" type="text" placeholder="DNI" autofocus="autofocus" v-model="dni" v-on:keyup="getItem(dni)">
 		                    </div>
-        				</div>
-        				<div class="col-md-8">
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-sm"> 
+                                <thead>
+                                    <tr> 
+                                        <th style="width: 95%">Curso</th>
+                                        <th colspan="1">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  v-for="item in items">
+                                        <td>{{ item.nombre }}</td>
+                                        <td width="10px">
+                                            <button class="btn-link btn-xs" title="Seleccionar" @click.prevent="selectItem(item)"><i class="fa fa-check" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
         					<div class="panel panel-primary">
         						<div class="panel-heading">
 	        						<h4 class="panel-title text-center">{{ fillItem.code }}</h4>
@@ -39,7 +56,7 @@
         		<div class="card-footer">
         			<div class="row">
 						<div class="col-xs-12">
-		                    <button class="btn btn-default pull-right"><i class="fa fa-fw fa-lg fa-times-circle"></i> Cancelar</button>
+		                    <button class="btn btn-default pull-right" @click.prevent="clean()"><i class="fa fa-fw fa-lg fa-times-circle"></i> Cancelar</button>
 		                    <button class="btn btn-success pull-right" style="margin-right: 5px;" @click.prevent="createMatricula()"><i class="fa fa-fw fa-lg fa-check-circle" ></i> Registrar</button>
 		                </div>
         			</div>
@@ -54,6 +71,7 @@ export default{
 		return{
 			date: new Date(),
 			dni: '',
+            items:[],
 			newItem:{'matricula_id':''},
 			fillItem: {'code':'','estado':'','nombres':'','apellidos':'','sexo':''},
 		}
@@ -68,16 +86,19 @@ export default{
 		}
 	},
 	methods:{
-        getAlumno: function(dni){
+        getItem: function(dni){
             var that=this;
             axios.get('/matriculas/alumno/'+dni).then(response=>{
-                that.newItem.matricula_id = response.data.code;
-                that.fillItem.code=response.data.code;
-                that.fillItem.nombres=response.data.nombres;
-                that.fillItem.apellidos=response.data.apellidos;
-                that.fillItem.estado = response.data.estado;
-                that.fillItem.sexo = response.data.sexo;
+                that.items = response.data;
             })
+        },
+        selectItem: function(item){
+            this.newItem.matricula_id = item.code;
+            this.fillItem.code = item.code;
+            this.fillItem.nombres = item.nombres;
+            this.fillItem.apellidos = item.apellidos;
+            this.fillItem.sexo = item.sexo;
+            this.fillItem.estado = item.estado;
         },
         createMatricula: function(){
         	var input = this.newItem;
@@ -86,13 +107,20 @@ export default{
                 toastr.warning('Complete todos los campos', {timeOut: 5000});
             }
             else{
-                axios.post('/asistencia',input).then(response=>{
+                axios.post('/asistencias',input).then(response=>{
                     console.log('que pasa');
                     this.newItem = {'matricula_id':''};
                     this.dni = '';
-                    toastr.success('Asistencia registrada '+this.fillItem.nombres, {timeOut: 5000});
+                    this.items = '';     
+                    this.fillItem = {'code':'','estado':'','nombres':'','apellidos':'','sexo':''};
+                    toastr.success('Asistencia registrada ', {timeOut: 5000});
                 });
             }
+        },
+        clean: function(){
+            this.dni = '';
+            this.items = ''; 
+            this.fillItem = {'code':'','estado':'','nombres':'','apellidos':'','sexo':''};
         }
 	}
 }

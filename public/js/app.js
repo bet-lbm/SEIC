@@ -17303,7 +17303,7 @@ return zhTw;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(132);
-module.exports = __webpack_require__(194);
+module.exports = __webpack_require__(197);
 
 
 /***/ }),
@@ -17339,6 +17339,7 @@ Vue.component('temas', __webpack_require__(180));
 Vue.component('addtema', __webpack_require__(183));
 Vue.component('addmatricula', __webpack_require__(188));
 Vue.component('addasistencia', __webpack_require__(191));
+Vue.component('asistencias-alumno', __webpack_require__(194));
 //-------------------------------------------------------
 var app = new Vue({
   el: '#app'
@@ -65517,6 +65518,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -65536,6 +65538,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         today: function today() {
             return this.date.toLocaleString("es-CL", { year: "numeric", month: "numeric", day: "numeric" });
+        },
+        dateFormat: function dateFormat() {
+            var date = new Date(this.date);
+            this.newMatricula.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
         }
     },
     created: function created() {
@@ -65545,15 +65551,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        dateFormat: function dateFormat() {
-            var date = new Date(this.date);
-            this.newMatricula.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-        },
         getCode: function getCode() {
-            this.newMatricula.habilitado = true;
             var that = this;
             axios.get('/matriculas/code').then(function (response) {
                 that.newMatricula.code = response.data;
+                that.newMatricula.habilitado = true;
             });
         },
         getCurso: function getCurso() {
@@ -65611,11 +65613,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 axios.post('/matriculas', input).then(function (response) {
                     _this.getCode();
-                    _this.newMatricula = { 'code': '', 'alumno_id': '', 'horario_id': '', 'precioCurso': '', 'pago': '', 'fecha': '', 'estado': '', 'habilitado': '' }, _this.fillAlumno = { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' };
-                    _this.horarios = [];
-                    _this.curso = [];
-                    _this.H = '';
+                    _this.fillAlumno = { 'id': '', 'dni': '', 'nombres': '', 'apellidos': '', 'sexo': '', 'direccion': '', 'email': '', 'telefono': '' };
                     toastr.success('Matricula Realizada', { timeOut: 5000 });
+                    _this.horarios = [];
+                    _this.H = '';
+                    _this.curso = [];
+                    _this.newMatricula = { 'code': '', 'alumno_id': '', 'horario_id': '', 'precioCurso': '', 'pago': '', 'fecha': '', 'estado': '', 'habilitado': '' };
                 });
             }
         }
@@ -65636,7 +65639,6 @@ var render = function() {
         _c("div", { staticClass: "row line-head" }, [
           _c("h5", { staticClass: "col-md-6 col-sm-6 col-xs-6" }, [
             _c("i", { staticClass: "fa fa-barcode" }),
-            _vm._v(" "),
             _c("b", [_vm._v(" CÓDIGO DE MATRICULA :")]),
             _vm._v("  " + _vm._s(_vm.newMatricula.code))
           ]),
@@ -65645,7 +65647,12 @@ var render = function() {
             _c("h5", { staticClass: "pull-right" }, [
               _c("i", { staticClass: "fa fa-calendar" }),
               _vm._v("  " + _vm._s(_vm.today))
-            ])
+            ]),
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.dateFormat) +
+                "\n\t            "
+            )
           ])
         ])
       ]),
@@ -66263,12 +66270,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             date: new Date(),
             dni: '',
+            items: [],
             newItem: { 'matricula_id': '' },
             fillItem: { 'code': '', 'estado': '', 'nombres': '', 'apellidos': '', 'sexo': '' }
         };
@@ -66283,16 +66308,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        getAlumno: function getAlumno(dni) {
+        getItem: function getItem(dni) {
             var that = this;
             axios.get('/matriculas/alumno/' + dni).then(function (response) {
-                that.newItem.matricula_id = response.data.code;
-                that.fillItem.code = response.data.code;
-                that.fillItem.nombres = response.data.nombres;
-                that.fillItem.apellidos = response.data.apellidos;
-                that.fillItem.estado = response.data.estado;
-                that.fillItem.sexo = response.data.sexo;
+                that.items = response.data;
             });
+        },
+        selectItem: function selectItem(item) {
+            this.newItem.matricula_id = item.code;
+            this.fillItem.code = item.code;
+            this.fillItem.nombres = item.nombres;
+            this.fillItem.apellidos = item.apellidos;
+            this.fillItem.sexo = item.sexo;
+            this.fillItem.estado = item.estado;
         },
         createMatricula: function createMatricula() {
             var _this = this;
@@ -66301,13 +66329,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (input['matricula_id'] == '') {
                 toastr.warning('Complete todos los campos', { timeOut: 5000 });
             } else {
-                axios.post('/asistencia', input).then(function (response) {
+                axios.post('/asistencias', input).then(function (response) {
                     console.log('que pasa');
                     _this.newItem = { 'matricula_id': '' };
                     _this.dni = '';
-                    toastr.success('Asistencia registrada ' + _this.fillItem.nombres, { timeOut: 5000 });
+                    _this.items = '';
+                    _this.fillItem = { 'code': '', 'estado': '', 'nombres': '', 'apellidos': '', 'sexo': '' };
+                    toastr.success('Asistencia registrada ', { timeOut: 5000 });
                 });
             }
+        },
+        clean: function clean() {
+            this.dni = '';
+            this.items = '';
+            this.fillItem = { 'code': '', 'estado': '', 'nombres': '', 'apellidos': '', 'sexo': '' };
         }
     }
 });
@@ -66365,7 +66400,7 @@ var render = function() {
                   domProps: { value: _vm.dni },
                   on: {
                     keyup: function($event) {
-                      _vm.getAlumno(_vm.dni)
+                      _vm.getItem(_vm.dni)
                     },
                     input: function($event) {
                       if ($event.target.composing) {
@@ -66379,6 +66414,41 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-8" }, [
+              _c("table", { staticClass: "table table-sm" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.items, function(item) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(item.nombre))]),
+                      _vm._v(" "),
+                      _c("td", { attrs: { width: "10px" } }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn-link btn-xs",
+                            attrs: { title: "Seleccionar" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.selectItem(item)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "fa fa-check",
+                              attrs: { "aria-hidden": "true" }
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ]),
+              _vm._v(" "),
               _c("div", { staticClass: "panel panel-primary" }, [
                 _c("div", { staticClass: "panel-heading" }, [
                   _c("h4", { staticClass: "panel-title text-center" }, [
@@ -66431,7 +66501,22 @@ var render = function() {
         _c("div", { staticClass: "card-footer" }, [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-xs-12" }, [
-              _vm._m(1),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default pull-right",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.clean()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-fw fa-lg fa-times-circle" }),
+                  _vm._v(" Cancelar")
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "button",
@@ -66472,9 +66557,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "btn btn-default pull-right" }, [
-      _c("i", { staticClass: "fa fa-fw fa-lg fa-times-circle" }),
-      _vm._v(" Cancelar")
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticStyle: { width: "95%" } }, [_vm._v("Curso")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "1" } }, [_vm._v(" ")])
+      ])
     ])
   }
 ]
@@ -66489,6 +66577,434 @@ if (false) {
 
 /***/ }),
 /* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(195)
+/* template */
+var __vue_template__ = __webpack_require__(196)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AsistenciaAlumno.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6874c035", Component.options)
+  } else {
+    hotAPI.reload("data-v-6874c035", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 195 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            date: new Date(),
+            dni: '',
+            items: [],
+            asistencias: [],
+            fillItem: { 'code': '', 'estado': '', 'nombres': '', 'apellidos': '' }
+        };
+    },
+
+    methods: {
+        getItem: function getItem(dni) {
+            var that = this;
+            axios.get('/matriculas/alumno/' + dni).then(function (response) {
+                that.items = response.data;
+            });
+        },
+        selectItem: function selectItem(item) {
+            this.fillItem.code = item.code;
+            this.fillItem.nombres = item.nombres;
+            this.fillItem.apellidos = item.apellidos;
+            this.fillItem.estado = item.estado;
+            this.getAsistencias(item.code);
+        },
+        getAsistencias: function getAsistencias(code) {
+            var that = this;
+            axios.get('/asistencias/search/' + code).then(function (response) {
+                that.asistencias = response.data;
+            });
+        },
+        clean: function clean() {
+            this.dni = '';
+            this.items = '';
+            this.asistencias = '';
+            this.fillItem = { 'code': '', 'estado': '', 'nombres': '', 'apellidos': '' };
+        }
+    }
+});
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "card" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: " col-md-10 col-md-offset-1" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.dni,
+                      expression: "dni"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    placeholder: "DNI",
+                    autofocus: "autofocus"
+                  },
+                  domProps: { value: _vm.dni },
+                  on: {
+                    keyup: function($event) {
+                      _vm.getItem(_vm.dni)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.dni = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("table", { staticClass: "table" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.items, function(item) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(item.nombre))]),
+                  _vm._v(" "),
+                  _c("td", { attrs: { width: "10px" } }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn-link btn-xs",
+                        attrs: { title: "Seleccionar" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.selectItem(item)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fa fa-check",
+                          attrs: { "aria-hidden": "true" }
+                        })
+                      ]
+                    )
+                  ])
+                ])
+              })
+            )
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-8 " }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-title" }, [
+          _c("p", { staticClass: "line-head" }, [
+            _c("i", { staticClass: "fa fa-barcode" }),
+            _c("b", [_vm._v(" CÓDIGO DE MATRICULA: ")]),
+            _vm._v("  " + _vm._s(_vm.fillItem.code))
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "row invoce-info line-head" }, [
+            _c("div", { staticClass: "col-sm-8 col-md-8 col-xs-6" }, [
+              _c("b", [_vm._v("  DNI: ")]),
+              _vm._v(
+                "     " + _vm._s(_vm.dni) + "\n                            "
+              ),
+              _c("br"),
+              _c("b", [_vm._v(" Nombres y Apellidos: ")]),
+              _c("em", [
+                _vm._v(
+                  _vm._s(_vm.fillItem.nombres) +
+                    " " +
+                    _vm._s(_vm.fillItem.apellidos)
+                )
+              ]),
+              _vm._v(" "),
+              _c("br"),
+              _vm.fillItem.estado === 0
+                ? _c("p", { staticClass: "text-danger" }, [
+                    _c("b", [_vm._v("DEUDA PENDIENTE")])
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _vm._m(3)
+          ]),
+          _vm._v(" "),
+          _c(
+            "table",
+            { staticClass: "table table-hover", attrs: { role: "grid" } },
+            [
+              _vm._m(4),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.asistencias, function(asistencia, index) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(asistencia.created_at))])
+                  ])
+                })
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-footer" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-xs-12" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default pull-right",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.clean()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-fw fa-lg fa-times-circle" }),
+                  _vm._v(" Cancelar")
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(5)
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "card-title text-center" }, [
+      _c("i", { staticClass: "fa fa-user-circle-o fa-5x text-info" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", [_c("em", [_vm._v("Ingrese número de DNI:")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticStyle: { width: "95%" } }, [_vm._v("Cursos")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "1" } }, [_vm._v(" ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("i", { staticClass: "col-md-4 fa fa-3x fa-graduation-cap" }),
+      _vm._v(" "),
+      _c("h5", { staticClass: "col-md-8" }, [
+        _vm._v("\n                                SEIC"),
+        _c("br"),
+        _c("small", [_vm._v("CAPACITACIONES")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v(" N°")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "85%" } }, [_vm._v("Fecha - Hora")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-success pull-right",
+        staticStyle: { "margin-right": "5px" }
+      },
+      [_c("i", { staticClass: "fa fa-fw fa-lg fa-print" }), _vm._v(" Imprimir")]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6874c035", module.exports)
+  }
+}
+
+/***/ }),
+/* 197 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

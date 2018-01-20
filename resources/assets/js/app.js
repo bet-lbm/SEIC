@@ -27,6 +27,7 @@ Vue.component('temas',require('./components/Temas.vue'));
 Vue.component('addtema',require('./components/TemaCrear.vue'));
 Vue.component('addmatricula',require('./components/MatriculaCrear.vue'));
 Vue.component('addasistencia',require('./components/AsistenciaCrear.vue'));
+Vue.component('asistencias-alumno',require('./components/AsistenciaAlumno.vue'))
 //-------------------------------------------------------
 const app = new Vue({
     el: '#app'

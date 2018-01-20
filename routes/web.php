@@ -45,5 +45,7 @@ Route::get('/matriculas/code','MatriculaController@code');
 Route::resource('matriculas','MatriculaController',['except' => ['edit']]); 
 
 // ************** ASISTENCIA *******************
-Route::resource('asistencia','AsistenciaController',['except' => ['edit','update','destroy']]); 
+Route::name('asistencias.alumno')->get('/asistencias/alumno','AsistenciaController@getIndexAlumno');
+Route::get('/asistencias/search/{code}','AsistenciaController@search');
+Route::resource('asistencias','AsistenciaController',['only' => ['create','store']]); 
 // *********************************************
