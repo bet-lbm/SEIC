@@ -54,10 +54,11 @@ Route::get('/notas/reporte/{id}','NotaController@notas_curso');
 Route::resource('notas','NotaController',['except' => ['edit','update','destroy']]); 
 
 // ************** ASISTENCIA *******************
-Route::resource('asistencia','AsistenciaController',['except' => ['edit','update','destroy']]); 
-// *********************************************
-
+Route::name('asistencias.alumno')->get('/asistencias/alumno','AsistenciaController@getIndexAlumno');
+Route::get('/asistencias/search/{code}','AsistenciaController@search');
+Route::resource('asistencias','AsistenciaController',['only' => ['create','store']]); 
 //---------------------------------Certificado---------------------------------------
 Route::name('certificados.list')->get('/cerificados/list','CertificadoController@getIndex');
 Route::get('/certificados/combo/{dni}','CertificadoController@combo');
 Route::resource('certificados','CertificadoController',['except'=>['edit','update','destroy']]);
+

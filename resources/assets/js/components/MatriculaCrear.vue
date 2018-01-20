@@ -4,9 +4,10 @@
 	<div class="card">
 		<div class="card-title">
 			<div class="row line-head">
-				<h5 class="col-md-6 col-sm-6 col-xs-6"> <i class="fa fa-barcode"></i> <b> CÓDIGO DE MATRICULA :</b>&nbsp;&nbsp;{{ newMatricula.code }}</h5>
+				<h5 class="col-md-6 col-sm-6 col-xs-6"><i class="fa fa-barcode"></i><b> CÓDIGO DE MATRICULA :</b>&nbsp;&nbsp;{{ newMatricula.code }}</h5>
 	            <div class="col-md-6 col-sm-6 col-xs-6">
 	                <h5 class="pull-right"><i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ today }}</h5>
+                    {{ dateFormat }}
 	            </div> 
 			</div>
         </div>         
@@ -166,23 +167,23 @@ export default{
 		today: function()
         {
             return this.date.toLocaleString("es-CL", {year: "numeric", month: "numeric",day: "numeric"});
-        }
-	},
-	created(){
-		this.getCode();
-		this.getCurso();
-		this.dateFormat();
-	},
-	methods:{
+        },
         dateFormat: function() {
             let date = new Date(this.date);
             this.newMatricula.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-'+ ('0' + date.getDate()).slice(-2);
-        },
+        }
+    },
+    created(){
+        this.getCode();
+        this.getCurso();
+        this.dateFormat();
+    },
+    methods:{
         getCode:function(){
-            this.newMatricula.habilitado = true;
             var that =  this;
             axios.get('/matriculas/code').then( function (response) {
                 that.newMatricula.code = response.data;
+                that.newMatricula.habilitado = true;
             });
         },
         getCurso: function(){
@@ -241,12 +242,12 @@ export default{
             else{
                 axios.post('/matriculas',input).then(response => { 
                     this.getCode();
-	                this.newMatricula= {'code':'','alumno_id':'','horario_id':'','precioCurso':'','pago':'','fecha':'','estado':'','habilitado':''},
-	                this.fillAlumno = {'id': '','dni':'','nombres':'','apellidos':'','sexo':'','direccion':'','email':'','telefono':''};
-	                this.horarios=[];
-	                this.curso=[];
-	                this.H = '';
+                    this.fillAlumno = {'id': '','dni':'','nombres':'','apellidos':'','sexo':'','direccion':'','email':'','telefono':''};
                     toastr.success('Matricula Realizada',{timeOut: 5000});
+                    this.horarios=[];
+                    this.H = '';
+                    this.curso=[];
+    	            this.newMatricula= {'code':'','alumno_id':'','horario_id':'','precioCurso':'','pago':'','fecha':'','estado':'','habilitado':''};
                 });
             }
 		}

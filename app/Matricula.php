@@ -22,8 +22,4 @@ class Matricula extends Model
     {
     	return $this->belongsTo(Horario::class);
     }
-    public function asistencia()
-    {
-        return $this->hasMany(Asistencia::class);
-    }
 }

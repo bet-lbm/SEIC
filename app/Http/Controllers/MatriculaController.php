@@ -85,16 +85,6 @@ class MatriculaController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Matricula  $matricula
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Matricula $matricula)
-    {
-        //
-    }
     public function code(){
         $max = Matricula::count();
         if ($max > 0) {
@@ -111,12 +101,15 @@ class MatriculaController extends Controller
         }
         return $formato;
     }
+    
     public function getAlumno($dni){
         $alumno=DB::table('matriculas')
                     ->join('alumnos','matriculas.alumno_id','=','alumnos.id')
-                    ->select('matriculas.code','matriculas.estado','alumnos.dni','alumnos.nombres','alumnos.apellidos','alumnos.sexo')
+                    ->join('horarios','horarios.id','=','matriculas.horario_id')
+                    ->join('cursos','horarios.curso_id','=','cursos.id')
+                    ->select('matriculas.code','matriculas.estado','alumnos.dni','alumnos.nombres','alumnos.apellidos','alumnos.sexo','cursos.nombre')
                     ->where('alumnos.dni','=',$dni)
-                    ->first();
+                    ->get();
         return response()->json($alumno);
     }
 }

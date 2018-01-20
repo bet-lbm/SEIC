@@ -10,7 +10,8 @@ class Tema extends Model
     protected $table='temas';
     protected $fillable=['tema','fecha','descripcion','horario_id'];
 
-    public function horario(){
+    public function horario()
+    {
     	return $this->hasMany(Horario::class);
     }
 }
