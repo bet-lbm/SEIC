@@ -27,7 +27,9 @@ Route::resource('alumnos','AlumnoController',['except' => ['edit']]);
 //---------------------------- CURSOS -------------------------------------------
 Route::name('cursos.list')->get('/cursos/list','CursoController@getIndex');
 Route::get('/cursos/combo','CursoController@combo');
-Route::resource('cursos','CursoController',['except' => ['edit']]); 
+Route::name('cursos.reporte')->get('/cursos/reporte','CursoController@getReporte');
+Route::get('/cursos/reporte/{id}','CursoController@alumnos_curso');
+Route::resource('cursos','CursoController',['except' => ['edit']]);
 //-----------------------------Horario-------------------------------------------
 Route::name('horarios.list')->get('/horarios/list','HorarioController@getIndex');
 Route::resource('horarios','HorarioController',['except'=>['edit']]);
@@ -47,6 +49,8 @@ Route::resource('matriculas','MatriculaController',['except' => ['edit']]);
 //-------------------------------------NOTAS----------------------------------------
 Route::name('notas.list')->get('/notas/list','NotaController@index');
 Route::get('/notas/combo/{dni}','NotaController@combo');
+Route::name('notas.reporte')->get('/notas/reporte','NotaController@getReporte');
+Route::get('/notas/reporte/{id}','NotaController@notas_curso');
 Route::resource('notas','NotaController',['except' => ['edit','update','destroy']]); 
 
 // ************** ASISTENCIA *******************

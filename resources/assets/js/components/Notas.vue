@@ -10,7 +10,7 @@
    				<div class="row invoce-info line-head">
    					<div class="col-md-3">
 				        <h3 class="text-center ">
-	                        <i class="fa fa-graduation-cap"></i><br>SEIC<br><small>CAPACITACIONES</small>
+	                        <i class="fa fa-graduation-cap"></i><br>SEIC<br><small>NOTAS</small>
 	                    </h3>
 					</div>
 					<div class="col-sm-9 col-md-9 col-xs-6">

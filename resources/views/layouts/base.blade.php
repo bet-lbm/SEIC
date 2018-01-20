@@ -90,9 +90,9 @@
             </li>
             <li class="treeview"><a href="#"><i class="fa fa-th-list"></i><span>Reportes</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="table-basic.html"><i class="fa fa-circle-o"></i> alumnos por Curso</a></li>
+                <li><a href="{{ route('cursos.reporte') }}"><i class="fa fa-circle-o"></i> alumnos por Curso</a></li>
                 <li><a href="table-data-table.html"><i class="fa fa-circle-o"></i>Asistencia de Alumnos</a></li>
-                <li><a href="table-data-table.html"><i class="fa fa-circle-o"></i>Notas</a></li>
+                <li><a href="{{ route('notas.reporte') }}"><i class="fa fa-circle-o"></i>Notas por Curso</a></li>
               </ul>
             </li>
           </ul>
