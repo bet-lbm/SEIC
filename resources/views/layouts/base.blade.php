@@ -82,12 +82,12 @@
             <li class="treeview"><a href="{{ route('asistencias.create') }}"><i class="fa fa-clock-o"></i><span>Asistencias</span></a></li>         
             <li class="treeview"><a href="{{ route('certificados.list') }}"><i class="fa fa-id-card"></i><span>Certificados</span></a></li>         
             <li class="treeview"><a href="{{ route('temas.list') }}"><i class="fa fa-calendar-check-o"></i><span>Leccion</span></a></li>
-            <li class="treeview"><a href="#"><i class="fa fa-desktop"></i><span>Matriculas</span></a>
+            <li class="treeview"><a href="#"><i class="fa fa-desktop"></i><span>Matriculas</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="{{ route('matriculas.create') }}"><i class="fa fa-plus"></i>Nueva Matriculas</a></li>
                 <li><a href="{{ route('matriculas.create') }}"><i class="fa fa-search"></i>Buscar Matricula</a></li>
                 <li><a href="{{ route('matriculas.create') }}"><i class="fa fa-money"></i>Pago de Matricula</a></li>
-                <li><a href="{{ route('matriculas.create') }}"><i class="fa fa-list"></i>Listar Matriculas</a></li>
+                <li><a href="{{ route('matriculas.list') }}"><i class="fa fa-list"></i>Listar Matriculas</a></li>
               </ul>
             </li>
             <li class="treeview"><a href="{{ route('notas.list') }}"><i class="fa fa-circle"></i><span>Notas</span></a></li>

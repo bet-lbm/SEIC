@@ -40,6 +40,7 @@ Route::get('/temas/get/{id}','TemaController@getTema');
 Route::resource('temas','TemaController',['except'=>['edit']]);
 Route::get('/horarios/curso/{curso}','HorarioController@findHorario');
 //-----------------------------MATRICULA-------------------------------------------
+Route::name('matriculas.list')->get('/matriculas/list','MatriculaController@getIndex');
 Route::get('/matriculas/alumno/{dni}','MatriculaController@getAlumno');
 Route::get('/matriculas/code','MatriculaController@code');
 Route::resource('matriculas','MatriculaController',['except' => ['edit']]); 

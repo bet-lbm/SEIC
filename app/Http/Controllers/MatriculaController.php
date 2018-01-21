@@ -9,6 +9,14 @@ use DB;
 
 class MatriculaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function getIndex()
+    {
+        return view('matriculas.index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +24,23 @@ class MatriculaController extends Controller
      */
     public function index()
     {
-        //
+        $matriculas = Matricula::join('alumnos','matriculas.alumno_id','=','alumnos.id')
+                ->join('horarios','horarios.id','=','matriculas.horario_id')
+                ->join('cursos','horarios.curso_id','=','cursos.id')
+                ->select('matriculas.code','matriculas.estado','alumnos.dni','alumnos.nombres','alumnos.apellidos','cursos.nombre')
+                ->paginate(10);
+        $response = [
+            'pagination' => [
+                'total' => $matriculas->total(),
+                'per_page' => $matriculas->perPage(),
+                'current_page' => $matriculas->currentPage(),
+                'last_page' => $matriculas->lastPage(),
+                'from' => $matriculas->firstItem(),
+                'to' => $matriculas->lastItem(),
+            ],
+            'data' => $matriculas
+        ];
+        return response()->json($response);
     }
 
     /**
@@ -85,7 +109,8 @@ class MatriculaController extends Controller
         //
     }
 
-    public function code(){
+    public function code()
+    {
         $max = Matricula::count();
         if ($max > 0) {
             $row = explode('-',Matricula::max('code'), 3);
@@ -102,7 +127,8 @@ class MatriculaController extends Controller
         return $formato;
     }
     
-    public function getAlumno($dni){
+    public function getAlumno($dni)
+    {
         $alumno=DB::table('matriculas')
                     ->join('alumnos','matriculas.alumno_id','=','alumnos.id')
                     ->join('horarios','horarios.id','=','matriculas.horario_id')

@@ -25,6 +25,7 @@ Vue.component('horarios',require('./components/Horarios.vue'));
 Vue.component('addhorario',require('./components/HorarioCrear.vue'));
 Vue.component('temas',require('./components/Temas.vue'));
 Vue.component('addtema',require('./components/TemaCrear.vue'));
+Vue.component('matriculas',require('./components/Matriculas.vue'));
 Vue.component('addmatricula',require('./components/MatriculaCrear.vue'));
 Vue.component('notas',require('./components/Notas.vue'));
 Vue.component('addasistencia',require('./components/AsistenciaCrear.vue'));
