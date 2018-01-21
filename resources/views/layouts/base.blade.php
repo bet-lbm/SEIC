@@ -94,9 +94,9 @@
             
             <li class="treeview"><a href="#"><i class="fa fa-th-list"></i><span>Reportes</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
+                <li><a href="{{ route('cursos.reporte') }}"><i class="fa fa-circle-o"></i> alumnos por Curso</a></li>
+                <li><a href="{{ route('notas.reporte') }}"><i class="fa fa-circle-o"></i>Notas por Curso</a></li>
                 <li><a href="{{ route('asistencias.alumno') }}"><i class="fa fa-circle-o"></i>Asistencia alumno</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Alumnos por Curso</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Notas</a></li>
               </ul>
             </li>
           </ul>

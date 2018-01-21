@@ -49,51 +49,6 @@ class NotaController extends Controller
         $create=Nota::create($request->all());
         return response()->json($create);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
     public function combo($dni){
         $matriculas=DB::table('matriculas')
                         ->join('alumnos','matriculas.alumno_id','=','alumnos.id')
@@ -103,4 +58,19 @@ class NotaController extends Controller
                         ->where('alumnos.dni','=',$dni)->get();
         return response()->json($matriculas);
     }
+    public function getReporte(){
+        return view('notas.reporte');
+    }
+
+    public function notas_curso($id){
+        $notas=DB::table('notas')
+                  ->join('matriculas','notas.matricula_id','=','matriculas.code')
+                  ->join('alumnos','matriculas.alumno_id','=','alumnos.id')
+                  ->join('horarios','matriculas.horario_id','=','horarios.id')
+                  ->join('cursos','horarios.curso_id','=','cursos.id')
+                  ->select('cursos.id','matriculas.code','alumnos.dni','alumnos.apellidos','alumnos.nombres','notas.nota','horarios.hora_inicio','horarios.dia','cursos.nombre','cursos.duracion')
+                  ->where('cursos.id','=',$id)->get();
+        return response()->json($notas);
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use Illuminate\Http\Request;
+use DB;
 
 class CursoController extends Controller
 {
@@ -67,5 +68,17 @@ class CursoController extends Controller
     public function combo(){
         $curso=Curso::orderBy('nombre','asc')->get();
         return response()->json($curso);
+    }
+    public function getReporte(){
+        return view('cursos.reporte');
+    }
+    public function alumnos_curso($id){
+        $cursos=DB::table('matriculas')
+                  ->join('alumnos','matriculas.alumno_id','=','alumnos.id')
+                  ->join('horarios','matriculas.horario_id','=','horario_id')
+                  ->join('cursos','horarios.curso_id','=','cursos.id')
+                  ->select('cursos.id','matriculas.code','alumnos.dni','alumnos.apellidos','alumnos.nombres','horarios.hora_inicio','horarios.dia','matriculas.precioCurso','matriculas.pago','cursos.nombre')
+                  ->where('cursos.id','=',$id)->get();
+        return response()->json($cursos);
     }
 }

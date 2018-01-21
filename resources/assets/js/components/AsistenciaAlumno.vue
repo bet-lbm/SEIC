@@ -40,7 +40,7 @@
         		<div class="card-body">
                     <div class="row invoce-info line-head">
                         <div class="col-sm-8 col-md-8 col-xs-6">
-                            <b>  DNI: </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ dni }}
+                            <b>  DNI: </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ fillItem.dni }}
                             <br><b> Nombres y Apellidos: </b><em>{{ fillItem.nombres }} {{ fillItem.apellidos }}</em>
                             <br><p v-if="fillItem.estado === 0" class="text-danger"><b>DEUDA PENDIENTE</b></p>
                         </div>
@@ -89,7 +89,7 @@ export default{
 			dni: '',
             items:[],
             asistencias:[],
-			fillItem: {'code':'','estado':'','nombres':'','apellidos':''},
+			fillItem: {'code':'','estado':'','nombres':'','apellidos':'','dni':''},
 		}
 	},
 	methods:{
@@ -104,6 +104,7 @@ export default{
             this.fillItem.nombres = item.nombres;
             this.fillItem.apellidos = item.apellidos;
             this.fillItem.estado = item.estado;
+            this.fillItem.dni = item.dni;
             this.getAsistencias(item.code);
         },
         getAsistencias: function(code){
@@ -116,7 +117,7 @@ export default{
             this.dni = '';
             this.items = ''; 
             this.asistencias = '';
-            this.fillItem = {'code':'','estado':'','nombres':'','apellidos':''};
+            this.fillItem = {'code':'','estado':'','nombres':'','apellidos':'','dni':''};
         }
 	}
 }

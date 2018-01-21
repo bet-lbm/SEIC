@@ -31,6 +31,8 @@ Vue.component('notas',require('./components/Notas.vue'));
 Vue.component('addasistencia',require('./components/AsistenciaCrear.vue'));
 Vue.component('asistencias-alumno',require('./components/AsistenciaAlumno.vue'))
 Vue.component('addcertificado',require('./components/Certificados.vue'));
+Vue.component('reportecursos',require('./components/CursosReporte.vue'));
+Vue.component('reportenotas',require('./components/NotasReporte.vue'));
 
 //-------------------------------------------------------
 const app = new Vue({
