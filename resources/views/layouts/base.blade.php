@@ -27,7 +27,8 @@
       <!-- Navbar-->
       <header class="main-header hidden-print"><a class="logo" href=""><p>S e i c</p></a>
         <nav class="navbar navbar-static-top">
-          <!-- Sidebar toggle button--><a class="sidebar-toggle" href="#" data-toggle="offcanvas"></a>
+          <!-- Sidebar toggle button-->
+          <a class="sidebar-toggle" href="#" data-toggle="offcanvas"></a>
           <!-- Navbar Right Menu-->
           <div class="navbar-custom-menu">
             <ul class="top-nav">
@@ -40,12 +41,12 @@
                       {{ Auth::user()->email }} <span class="caret"></span>
                   </a>
 
-                    <ul class="dropdown-menu settings-menu">
+                    <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
-                                Logout
+                                <i class="fa fa-sign-out fa-lg"></i> Logout
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -71,6 +72,7 @@
           </div>
           <!-- Sidebar Menu-->
           <ul class="sidebar-menu">
+            <li class="treeview"><a href="{{ route('registro') }}"><i class="fa fa-user"></i><span>Uuarios</span></a></li>
             <li class="treeview"><a href="#"><i class="fa fa-cogs"></i><span>Mantenimiento</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="{{ route('aulas.list') }}"><i class="fa fa-circle-o"></i>Aulas</a></li>
@@ -110,7 +112,6 @@
     <!-- Javascripts-->
     
     <script src="/js/jquery-2.1.4.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
     <script src="/js/plugins/pace.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/toastr.js"></script>

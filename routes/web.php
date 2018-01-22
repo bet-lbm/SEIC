@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::name('registro')->get('/registro', function () {
+    return view('registro');
+});
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 //---------------------alulas--------------------------------------------------
